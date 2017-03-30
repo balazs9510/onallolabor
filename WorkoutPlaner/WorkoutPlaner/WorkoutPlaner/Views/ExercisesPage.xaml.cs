@@ -2,9 +2,9 @@
 
 namespace WorkoutPlaner.Views
 {
-    public partial class MainPage : TabbedPage
+    public partial class ExercisesPage : ContentPage
     {
-        public MainPage()
+        public ExercisesPage()
         {
             InitializeComponent();
         }

@@ -1,11 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="WorkoutPlaner.Views.MainPage"
-             Title="MainPage">
-  <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-    <Label Text="{Binding Title}" />
-  </StackLayout>
-</ContentPage>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+            prism:ViewModelLocator.AutowireViewModel="True"
+            x:Class="WorkoutPlaner.Views.MainPage"
+            Title="Edzés tervező">
+    
+    <TabbedPage.ToolbarItems>
+        <ToolbarItem Text="Izomcsoportok" 
+                 Command="{Binding MuscleGroupClicked}" 
+                 Priority="0"
+                 Order="Secondary"/>
+        <ToolbarItem Text="Gyakorlatok" 
+                 Command="{Binding ExercisesClicked}" 
+                 Priority="1"
+                 Order="Secondary"/>
+        <ToolbarItem Text="Új edzés készítése" 
+                 Command="{Binding AddWorkoutPlanClicked}" 
+                 Priority="2"
+                 Order="Secondary"/>
+    </TabbedPage.ToolbarItems>
+
+    <ContentPage Title="Napi">
+
+        <ListView ItemsSource="{Binding DailyWorkouts}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+    </ContentPage>
+    <ContentPage Title="Havi">
+
+    </ContentPage>
+
+</TabbedPage>
