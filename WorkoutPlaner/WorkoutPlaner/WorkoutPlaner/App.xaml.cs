@@ -1,4 +1,5 @@
-﻿using Prism.Unity;
+﻿using Prism.Navigation;
+using Prism.Unity;
 using WorkoutPlaner.Views;
 using Xamarin.Forms;
 
@@ -17,9 +18,11 @@ namespace WorkoutPlaner
 
         protected override void RegisterTypes()
         {
+            
             Container.RegisterTypeForNavigation<NavigationPage>();
             Container.RegisterTypeForNavigation<MainPage>();            
             Container.RegisterTypeForNavigation<ExercisesPage>();
+            Container.RegisterTypeForNavigation<WorkoutPlanMakerPage>();
         }
     }
 }

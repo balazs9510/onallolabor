@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CarouselPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="WorkoutPlaner.Views.WorkoutPlanMakerPage"
+             Title="Edzés készítése">
+    
+    <ContentPage  Title="Napi edzés készítése">
+        <ScrollView>
+            <StackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label VerticalTextAlignment="Center"
+                        Grid.Column="0" Grid.Row="0" 
+                           Text="Edzés neve: "/>
+                    <Entry Grid.Column="1" Grid.Row="0" 
+                   Text="{Binding WorkoutPlanName}"/>
+                    <Label VerticalTextAlignment="Center"
+                   Text="Hozzáadott edzések: "
+                   Grid.Column="0" Grid.Row="1"/>
+
+                    <ListView
+                Grid.Column="1"
+                Grid.Row="1"
+                ItemsSource="{Binding AddedExercises}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <ViewCell.View>
+                                        <StackLayout Orientation="Horizontal"
+                                             Padding="0,10,0,0">
+                                            <Label Text="{Binding Name}"/>
+                                            <Label Text="{Binding SerialNumber
+                                        ,StringFormat='{0:N0} x'}"
+                                         FontAttributes="Bold"  />
+                                            <Label Text="{Binding Reps}"
+                                            FontAttributes="Bold"/>
+                                        </StackLayout>
+                                    </ViewCell.View>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <Grid  Grid.Row="2"
+                       Grid.ColumnSpan="2"
+                        Padding="0,10,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0"
+                               Grid.Row="0"
+                               Text="{Binding SerialStepper,
+                               StringFormat= 'Sorozat szám: {0:N0}'}"
+                               VerticalTextAlignment="Center"/>
+                        <Stepper Value="{Binding SerialStepper,Mode=TwoWay}"  
+                                 Grid.Column="0"
+                                 Grid.Row="1"
+                                Minimum="0"
+                                Maximum="10"/>
+                        <Label Grid.Column="1"
+                               Grid.Row="0"
+                               Text="{Binding RepsStepper,
+                               StringFormat= 'Ismétlés szám: {0:N0}'}"                      
+                               VerticalTextAlignment="Center"/>
+                        <Stepper Grid.Column="1"
+                                 Grid.Row="1"
+                                 Value="{Binding RepsStepper,Mode=TwoWay}" 
+                                 Minimum="0" 
+                                 Maximum="30"/>
+
+                    </Grid>
+
+                    <SearchBar Grid.Column="0" Grid.Row="4" 
+                       Text="{Binding SearchBarText, Mode=TwoWay}"
+                       Placeholder="Gyakorlat keresése" Grid.ColumnSpan="2"
+                       SearchCommand="{Binding SearchExerciseCommand}"/>
+
+                    <ListView                 
+                            SelectedItem="{Binding SelectedItem}"
+                            Grid.ColumnSpan="2"
+                            Grid.Row="5"
+                            ItemsSource="{Binding CurrentExercises}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextCell Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </Grid>
+                <Button Text="Mentés" HorizontalOptions="Start"
+                Command="{Binding SaveWorkoutPlanCommand}"
+                BackgroundColor="Orange"
+                VerticalOptions="End"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage>
+    <ContentPage Title="Heti edzés készítése">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="150"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ListView ItemsSource="{Binding DailyWorkouts}"
+                      SelectedItem="{Binding SelectedDW,Mode=TwoWay}"
+                      Grid.Column="0" Grid.Row="0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Name}">
+                            
+                        </TextCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Picker VerticalOptions="Center"
+                    HeightRequest="70"
+                Title="Válassz napot!" 
+                    SelectedIndex="{Binding SelectedDay}"
+                    Grid.Column="1" Grid.Row="0">
+                <Picker.Items>
+                    <x:String>1.nap</x:String>
+                    <x:String>2.nap</x:String>
+                    <x:String>3.nap</x:String>
+                    <x:String>4.nap</x:String>
+                    <x:String>5.nap</x:String>
+                    <x:String>6.nap</x:String>
+                    <x:String>7.nap</x:String>
+                </Picker.Items>
+            </Picker>
+            <Button VerticalOptions="Center"
+                Command="{Binding AddDailyWorkoutCommand}"
+                Text="Hozzáadás" Grid.Column="2" Grid.Row="0"/>
+            <ListView
+                Grid.ColumnSpan="3"
+                Grid.Row="1"
+                ItemsSource="{Binding DailyWorkoutsToSave}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell
+                            Text="{Binding Name,StringFormat='Edzés neve: {0:S}'}"
+                            />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                
+            </ListView>
+            <Button Grid.Row="2"
+                    Text="Mentés"/>
+        </Grid>
+              
+    </ContentPage>
+</CarouselPage>
