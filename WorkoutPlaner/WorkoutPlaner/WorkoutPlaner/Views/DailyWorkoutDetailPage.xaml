@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="WorkoutPlaner.Views.DailyWorkoutDetailPage"
+             Title="Részletek"
+             BackgroundColor="#FFD700">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Primary" 
+                     Priority="0"
+                     Icon="trashcan.png"/>
+        <ToolbarItem Order="Secondary" 
+                     Priority="1"
+                     Text="Szerkesztés"/>
+    </ContentPage.ToolbarItems>
+    <StackLayout>
+        <Label Text="{Binding Name}" 
+               TextColor="Red"
+               FontSize="Large"
+               FontAttributes="Bold"/>
+        <ListView ItemsSource="{Binding ExerciseItems}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0"
+                                Text="{Binding Name}"
+                                   FontAttributes="Italic"
+                                   FontSize="Medium"
+                                   TextColor="Black"
+                                   />
+                                <Label Grid.Column="1"
+                                Text="{Binding Reps, StringFormat='{0:N0} sorozat'}"
+                                   FontAttributes="Italic"
+                                   FontSize="Medium"
+                                   TextColor="Black"
+                                   />
+                                <Label Grid.Column="2"
+                                Text="{Binding SerialNumber, StringFormat='{0:N0} ismétlés'}"
+                                   FontAttributes="Italic"
+                                   FontSize="Medium"
+                                   TextColor="Black"
+                                   />
+                            </Grid>
+
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </StackLayout>
+
+</ContentPage>

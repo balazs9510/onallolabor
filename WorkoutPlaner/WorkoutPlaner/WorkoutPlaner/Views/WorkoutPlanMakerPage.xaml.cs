@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Diagnostics;
+using Xamarin.Forms;
 
 namespace WorkoutPlaner.Views
 {
@@ -8,5 +9,6 @@ namespace WorkoutPlaner.Views
         {
             InitializeComponent();
         }
+       
     }
 }

@@ -17,52 +17,79 @@ namespace WorkoutPlaner.Services
 
         private HttpClient client;
         
-        private readonly Uri serverUrl ; 
-        
+        private readonly Uri serverUrl ;
+        public bool Available { get; set; }
 
         public WorkoutService()
         {
             if(Device.OS == TargetPlatform.Android)
-                serverUrl =  new Uri("http://10.0.2.2:65175/");
+                serverUrl =  new Uri("http://10.0.3.2:65175/");
             else
                 serverUrl =  new Uri("http://127.0.0.1:65175/");
             client = new HttpClient();
             client.MaxResponseContentBufferSize = 256000;
+            client.Timeout = TimeSpan.FromSeconds(3);
         }
         private async Task<T> GetAsync<T>(Uri uri)
-        {            
-           var response = await client.GetAsync(uri);
-            Debug.WriteLine("nah mi a faszom van");
-           var json = await response.Content.ReadAsStringAsync();
-           T result = JsonConvert.DeserializeObject<T>(json);
-           return result;
-            
+        {
+            string json="";
+            try
+            {
+                var response = await client.GetAsync(uri);
+                json = await response.Content.ReadAsStringAsync();
+            }
+            catch(Exception e)
+            {
+                DependencyService.Get<INotification>()
+                        .ShowNotification("Nem áll rendelkezésre hálózat!");
+            }
+            T result = JsonConvert.DeserializeObject<T>(json);
+            return result;
         }        public async Task<List<DailyWorkout>> GetDailyWorkoutsAsync()
         {
             return await GetAsync<List<DailyWorkout>>(new Uri(serverUrl, "api/DailyWorkouts"));
-        }        
+        }        public async Task<List<WeeklyWorkout>> GetWeeklyWorkoutsAsync()
+        {
+            return await GetAsync<List<WeeklyWorkout>>(new Uri(serverUrl, "api/WeeklyWorkouts"));
+        }
+
         public async Task<List<Exercise>> GetExercisesAsync()
         {
             return await GetAsync<List<Exercise>>(new Uri(serverUrl, "api/Exercises"));
         }
+        public async Task<List<MonthlyWorkout>> GetMonthlyWorkoutsAsync()
+        {
+            return await GetAsync<List<MonthlyWorkout>>(new Uri(serverUrl, "api/MonthlyWorkouts"));
+        }
 
         public async Task PostAsync<T>(Uri url, T data)
         {
-
-            using (var client = new HttpClient())
-            {
-                var json = JsonConvert.SerializeObject(data);
-                var httpcontent = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
-                client.DefaultRequestHeaders
-                .Accept
-                .Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                var response = await client.PostAsync(url, httpcontent);
-
-            }
+           using (var client = new HttpClient())
+           {
+               var json = JsonConvert.SerializeObject(data);
+               var httpcontent = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
+               client.DefaultRequestHeaders
+               .Accept
+               .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+               var response = await client.PostAsync(url, httpcontent);
+           
+           }
+           
+            
         }        public async Task PostDailyWorkout(DailyWorkout dw)
         {
             await PostAsync<DailyWorkout>(
                 new Uri(serverUrl, $"api/DailyWorkouts"), dw);
-        }
+        }        public async Task PostWeeklyWorkout(WeeklyWorkout dw)
+        {
+            await PostAsync<WeeklyWorkout>(
+                new Uri(serverUrl, $"api/WeeklyWorkouts"), dw);
+        }
+
+        public async Task PostMonthlyWorkout(MonthlyWorkout saveInstance)
+        {
+            await PostAsync<MonthlyWorkout>(
+                new Uri(serverUrl, $"api/MonthlyWorkouts"), saveInstance);
+        }
     }
 }

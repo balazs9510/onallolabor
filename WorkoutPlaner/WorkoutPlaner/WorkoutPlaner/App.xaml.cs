@@ -23,6 +23,7 @@ namespace WorkoutPlaner
             Container.RegisterTypeForNavigation<MainPage>();            
             Container.RegisterTypeForNavigation<ExercisesPage>();
             Container.RegisterTypeForNavigation<WorkoutPlanMakerPage>();
+            Container.RegisterTypeForNavigation<DailyWorkoutDetailPage>();
         }
     }
 }

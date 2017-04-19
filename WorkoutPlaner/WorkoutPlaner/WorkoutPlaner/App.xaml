@@ -3,5 +3,18 @@
                         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                         xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
                         x:Class="WorkoutPlaner.App">
+  <prism:PrismApplication.Resources>
+    <ResourceDictionary>
+
+      <!-- Styles -->
+      <Style TargetType="NavigationPage">
+        <Setter Property="BarBackgroundColor" Value="#8B0000"/>
+        <Setter Property="BarTextColor" Value="Black"/>
+      </Style>
+      
+      <!-- Styles -->
+
+    </ResourceDictionary>
+  </prism:PrismApplication.Resources>
 
 </prism:PrismApplication>

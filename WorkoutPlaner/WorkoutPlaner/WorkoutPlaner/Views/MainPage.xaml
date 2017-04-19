@@ -4,10 +4,15 @@
             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
             prism:ViewModelLocator.AutowireViewModel="True"
             x:Class="WorkoutPlaner.Views.MainPage"
-            Title="Edzés tervező">
-    
+            Title="Edzés tervező"
+            BackgroundColor="#FFD700"
+            BarTextColor="Black"
+            BarBackgroundColor="#FFD700"
+           >
+
+
     <TabbedPage.ToolbarItems>
-        <ToolbarItem Text="Izomcsoportok" 
+        <ToolbarItem Text="Izomcsoportok"                 
                  Command="{Binding MuscleGroupClicked}" 
                  Priority="0"
                  Order="Secondary"/>
@@ -20,20 +25,110 @@
                  Priority="2"
                  Order="Secondary"/>
     </TabbedPage.ToolbarItems>
+    <ContentPage Title="Napi"  >
+        <StackLayout>
+            <ProgressBar 
+                BackgroundColor="Blue"
+                HeightRequest="7"
+                IsVisible="{Binding ProgresSeen}"
+                Progress="{Binding Progress}"/>
+            <ListView ItemsSource="{Binding DailyWorkouts}"
+                      SelectedItem="{Binding SelectedDWorkout}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout 
+                                   HorizontalOptions="Fill"
+                                   VerticalOptions="Start">
+                                    <Label Text="{Binding Name}" 
+                                           FontSize="Medium"
+                                           TextColor="Black"
+                                           FontAttributes="Italic"/>
 
-    <ContentPage Title="Napi">
+                                    <BoxView  
+                                        HorizontalOptions="Fill"
+                                        HeightRequest="3"
+                                        WidthRequest="1"
+                                        BackgroundColor="Black"/>
+                                </StackLayout>
 
-        <ListView ItemsSource="{Binding DailyWorkouts}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding Name}"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                            </ViewCell.View>
+                          
+                        </ViewCell>
+                        
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage>
+    <ContentPage Title="Heti">
+        <StackLayout>
+            <ProgressBar 
+                IsVisible="{Binding ProgresSeen}"
+                Progress="0.5"/>
         
+            <ListView ItemsSource="{Binding WeeklyWorkouts}"
+                      SelectedItem="{Binding SelectedWWorkout}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout 
+                                   HorizontalOptions="Fill"
+                                    VerticalOptions="Start">
+                                    <Label Text="{Binding Name}" 
+                                           FontSize="Medium"
+                                           TextColor="Black"
+                                           FontAttributes="Italic"/>
+
+                                    <BoxView  
+                                        HorizontalOptions="Fill"
+                                        HeightRequest="3"
+                                        WidthRequest="1"
+                                        BackgroundColor="Black"/>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </ContentPage>
     <ContentPage Title="Havi">
+        <StackLayout>
+            <ProgressBar 
+                IsVisible="{Binding ProgresSeen}"
+                Progress="0.5"/>
 
+            <ListView ItemsSource="{Binding MonthlyWorkouts}"
+                      SelectedItem="{Binding SelectedMWorkout}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout 
+                                   HorizontalOptions="Fill"
+                                    VerticalOptions="Start">
+                                    <Label Text="{Binding Name}" 
+                                           FontSize="Medium"
+                                           TextColor="Black"
+                                           FontAttributes="Italic"/>
+
+                                    <BoxView  
+                                        HorizontalOptions="Fill"
+                                        HeightRequest="3"
+                                        WidthRequest="1"
+                                        BackgroundColor="Black"/>
+                                </StackLayout>
+                            </ViewCell.View>
+
+                        </ViewCell>
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </ContentPage>
 
 </TabbedPage>

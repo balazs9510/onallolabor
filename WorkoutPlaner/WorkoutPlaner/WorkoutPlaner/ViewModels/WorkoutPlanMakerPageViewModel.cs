@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WorkoutPlaner.Models;
 using WorkoutPlaner.Services;
+using WorkoutPlaner.Views;
 using Xamarin.Forms;
 
 namespace WorkoutPlaner.ViewModels
@@ -16,9 +17,10 @@ namespace WorkoutPlaner.ViewModels
     public class WorkoutPlanMakerPageViewModel : BindableBase, INavigationAware
     {
 
-        
+        #region ctor
         public WorkoutPlanMakerPageViewModel()
         {
+
             AddedExercises = new ObservableCollection<ExerciseItem>();
             CurrentExercises = new ObservableCollection<Exercise>();
             Service = new WorkoutService();
@@ -28,30 +30,44 @@ namespace WorkoutPlaner.ViewModels
             {
                 DailyWorkoutsToSave.Add(new DailyWorkout());
             }
+            WeeklyWorkoutsToSave = new ObservableCollection<WeeklyWorkout>();
+            for (int i = 0; i < 4; i++)
+            {
+                WeeklyWorkoutsToSave.Add(new WeeklyWorkout());
+            }
             SelectedDW = new DailyWorkout();
             SearchExerciseCommand = new DelegateCommand(SearchPressedAsync);
             AddExerciseCommand = new DelegateCommand(AddExercisePressed);
             SaveWorkoutPlanCommand = new DelegateCommand(SaveWorkoutPlanPressedAsync);
             AddDailyWorkoutCommand = new DelegateCommand(AddDailyWorkout);
+            SaveWeeklyWorkoutCommand = new DelegateCommand(SaveWeeklyWorkoutAsync);
+            AddWeeklyWorkoutCommand = new DelegateCommand(AddWeeklyWorkout);
+            SaveMonthlyWorkoutCommand = new DelegateCommand(SaveMonthlyWorkoutAsync);
         }
-
-        private void AddDailyWorkout()
-        {
-            DailyWorkoutsToSave[SelectedDay] = SelectedDW;
-            SelectedDW = null;
-        }
-
-
+        #endregion
+        
         #region Properties
         private DailyWorkout _sdw;
         public DailyWorkout SelectedDW {
             get { return _sdw; }
             set { SetProperty(ref _sdw, value); }
         }
+        private WeeklyWorkout _sww;
+        public WeeklyWorkout SelectedWW
+        {
+            get { return _sww; }
+            set { SetProperty(ref _sww, value); }
+        }
         private ObservableCollection<DailyWorkout> _dwts;
         public ObservableCollection<DailyWorkout> DailyWorkoutsToSave {
             get { return _dwts; }
             set { SetProperty(ref _dwts,value); }
+        }
+        private ObservableCollection<WeeklyWorkout> _wwts;
+        public ObservableCollection<WeeklyWorkout> WeeklyWorkoutsToSave
+        {
+            get { return _wwts; }
+            set { SetProperty(ref _wwts, value); }
         }
         public int SelectedDay { get; set; }
         public INavigationService Navigation { get; set; }
@@ -77,6 +93,9 @@ namespace WorkoutPlaner.ViewModels
         public DelegateCommand SearchExerciseCommand { get; set; }
         public DelegateCommand AddExerciseCommand { get; set; }
         public DelegateCommand AddDailyWorkoutCommand { get; set; }
+        public DelegateCommand SaveWeeklyWorkoutCommand { get; set; }
+        public DelegateCommand AddWeeklyWorkoutCommand { get; set; }
+        public DelegateCommand SaveMonthlyWorkoutCommand { get; set; }
         private Exercise _selectedItem;
         public Exercise SelectedItem
         {
@@ -108,25 +127,21 @@ namespace WorkoutPlaner.ViewModels
             get { return _addedEx; }
             set { SetProperty(ref _addedEx, value); }
         }
-
         public WorkoutService Service { get; set; }
         private ObservableCollection<DailyWorkout> _dw;
         public ObservableCollection<DailyWorkout> DailyWorkouts {
             get { return _dw; }
             set { SetProperty(ref _dw, value); }
         }
+        private ObservableCollection<WeeklyWorkout> _ww;
+        public ObservableCollection<WeeklyWorkout> WeeklyWorkouts
+        {
+            get { return _ww; }
+            set { SetProperty(ref _ww, value); }
+        }
         #endregion
 
-
-        public void OnNavigatedFrom(NavigationParameters parameters)
-        {
-            
-        }
-
-        public void OnNavigatedTo(NavigationParameters parameters)
-        {
-            Navigation = parameters["navigation"] as INavigationService;
-        }
+        #region Commands
         private async void SaveWorkoutPlanPressedAsync()
         {
             await Service.PostDailyWorkout(new DailyWorkout()
@@ -154,26 +169,76 @@ namespace WorkoutPlaner.ViewModels
             }
 
         }
-       
-
         public async void SearchPressedAsync()
         {
             var exercises = await Service.GetExercisesAsync();
             CurrentExercises = new ObservableCollection<Exercise>(
                 exercises.Where(e => e.Name.Contains(SearchBarText)).ToList());
         }
-
-
-        public void OnNavigatingTo(NavigationParameters parameters)
+        private void AddDailyWorkout()
         {
-            Load();
+            DailyWorkoutsToSave[SelectedDay] = SelectedDW;
+            SelectedDW = null;
         }
+        private async void SaveWeeklyWorkoutAsync()
+        {
+            WeeklyWorkout saveInstance = new WeeklyWorkout()
+            {
+                Name = WorkoutPlanName,
+                DayOne = DailyWorkoutsToSave[0],
+                DayTwo = DailyWorkoutsToSave[1],
+                DayThree = DailyWorkoutsToSave[2],
+                DayFour = DailyWorkoutsToSave[3],
+                DayFive = DailyWorkoutsToSave[4],
+                DaySix = DailyWorkoutsToSave[5],
+                DaySeven = DailyWorkoutsToSave[6],
+                WorkoutType = Models.Type.Weekly
+            };
+            await Service.PostWeeklyWorkout(saveInstance);
+            await OpenMainPage();
+        }
+        private void AddWeeklyWorkout()
+        {
+            WeeklyWorkoutsToSave[SelectedDay] = SelectedWW;
+            SelectedWW = null;
+        }
+        private async void SaveMonthlyWorkoutAsync()
+        {
+            MonthlyWorkout saveInstance = new MonthlyWorkout()
+            {
+                Name = WorkoutPlanName,
+                WeekOne = WeeklyWorkoutsToSave[0],
+                WeekTwo = WeeklyWorkoutsToSave[1],
+                WeekThree = WeeklyWorkoutsToSave[2],
+                WeekFour = WeeklyWorkoutsToSave[3],
+            };
+            await Service.PostMonthlyWorkout(saveInstance);
+            await OpenMainPage();
+        }
+        #endregion
+
+        #region Navigation
         private async void Load()
         {
             var exercises = await Service.GetExercisesAsync();
             CurrentExercises = new ObservableCollection<Exercise>(exercises);
             var dailyWorkouts = await Service.GetDailyWorkoutsAsync();
             DailyWorkouts = new ObservableCollection<DailyWorkout>(dailyWorkouts);
+            var weeklyWorkouts = await Service.GetWeeklyWorkoutsAsync();
+            WeeklyWorkouts = new ObservableCollection<WeeklyWorkout>(weeklyWorkouts);
         }
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+
+        }
+        public void OnNavigatedTo(NavigationParameters parameters)
+        {
+            Navigation = parameters["navigation"] as INavigationService;
+        }
+        public void OnNavigatingTo(NavigationParameters parameters)
+        {
+            Load();
+        }
+        #endregion
     }
 }
