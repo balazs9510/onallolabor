@@ -27,7 +27,7 @@
                    Text="{Binding WorkoutPlanName}"/>
         </StackLayout>
         <ListView ItemsSource="{Binding DailyWorkouts}"
-                      SelectedItem="{Binding SelectedDW,Mode=TwoWay}"
+                      SelectedItem="{Binding SelectedWorkout,Mode=TwoWay}"
                       Grid.Column="0" Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate>

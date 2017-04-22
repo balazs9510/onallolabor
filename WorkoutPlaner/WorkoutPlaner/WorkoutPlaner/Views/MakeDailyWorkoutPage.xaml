@@ -69,6 +69,7 @@
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0"
                                Grid.Row="0"
+                             FontSize="Medium"
                                Text="{Binding SerialStepper,
                                StringFormat= 'Sorozat szám: {0:N0}'}"
                                VerticalTextAlignment="Center"/>
@@ -79,6 +80,7 @@
                                 Maximum="10"/>
                     <Label Grid.Column="1"
                                Grid.Row="0"
+                           FontSize="Medium"
                                Text="{Binding RepsStepper,
                                StringFormat= 'Ismétlés szám: {0:N0}'}"                      
                                VerticalTextAlignment="Center"/>

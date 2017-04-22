@@ -26,9 +26,9 @@ namespace WorkoutPlaner
             Container.RegisterTypeForNavigation<ExercisesPage>();            
             Container.RegisterTypeForNavigation<DailyWorkoutDetailPage>();
             Container.RegisterTypeForNavigation<DatePickerModalPage>();
-            Container.RegisterTypeForNavigation<MakeDailyWorkoutPage, WorkoutPlanMakerPageViewModel>();
-            Container.RegisterTypeForNavigation<MakeWeeklyWorkoutPage, WorkoutPlanMakerPageViewModel>();
-            Container.RegisterTypeForNavigation<MakeMonthlyWorkoutPage, WorkoutPlanMakerPageViewModel>();
+            Container.RegisterTypeForNavigation<MakeDailyWorkoutPage,MakeDailyWorkoutViewModel>();
+            Container.RegisterTypeForNavigation<MakeWeeklyWorkoutPage, MakeWeeklyWorkoutViewModel>();
+            Container.RegisterTypeForNavigation<MakeMonthlyWorkoutPage, MakeMonthlyWorkoutViewModel>();
 
         }
     }

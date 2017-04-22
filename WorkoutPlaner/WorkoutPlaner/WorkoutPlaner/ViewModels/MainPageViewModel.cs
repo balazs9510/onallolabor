@@ -116,19 +116,19 @@ namespace WorkoutPlaner.ViewModels
         private async void OpenDailyExerciseMaker()
         {
             var navParam = new NavigationParameters();
-            navParam.Add("navigation", this.Navigation);
+            navParam.Add("nav", this.Navigation);
             await Navigation.NavigateAsync(nameof(MakeDailyWorkoutPage), navParam);
         }
         private async void OpenWeeklyExerciseMaker()
         {
             var navParam = new NavigationParameters();
-            navParam.Add("navigation", this.Navigation);
+            navParam.Add("nav", this.Navigation);
             await Navigation.NavigateAsync(nameof(MakeWeeklyWorkoutPage), navParam);
         }
         private async void OpenMonthlyExerciseMaker()
         {
             var navParam = new NavigationParameters();
-            navParam.Add("navigation", this.Navigation);
+            navParam.Add("nav", this.Navigation);
             await Navigation.NavigateAsync(nameof(MakeMonthlyWorkoutPage), navParam);
         }
         private async void OpenDetailsPage(Models.Type t)

@@ -46,7 +46,9 @@
     <Compile Include="ViewModels\DailyWorkoutDetailPageViewModel.cs" />
     <Compile Include="ViewModels\ExercisesPageViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
-    <Compile Include="ViewModels\WorkoutPlanMakerPageViewModel.cs" />
+    <Compile Include="ViewModels\MakeDailyWorkoutViewModel.cs" />
+    <Compile Include="ViewModels\MakeMonthlyWorkoutViewModel.cs" />
+    <Compile Include="ViewModels\MakeWeeklyWorkoutViewModel.cs" />
     <Compile Include="Views\DailyWorkoutDetailPage.xaml.cs">
       <DependentUpon>DailyWorkoutDetailPage.xaml</DependentUpon>
     </Compile>
