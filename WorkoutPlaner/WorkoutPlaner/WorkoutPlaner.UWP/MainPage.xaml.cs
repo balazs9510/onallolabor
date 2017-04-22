@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Prism.Unity;
 using Microsoft.Practices.Unity;
+using WorkoutPlaner.Services;
 
 namespace WorkoutPlaner.UWP
 {
@@ -31,7 +32,8 @@ namespace WorkoutPlaner.UWP
     {
         public void RegisterTypes(IUnityContainer container)
         {
-
+            
+            container.RegisterInstance<ICalendarSaver>(new CalendarSaver());
         }
     }
 

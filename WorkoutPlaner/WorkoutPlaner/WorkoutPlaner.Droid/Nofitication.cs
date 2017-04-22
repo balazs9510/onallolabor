@@ -20,7 +20,7 @@ namespace WorkoutPlaner.Droid
     {
         public void ShowNotification(string text)
         {           
-            Activity activity = CrossCurrentActivity.Current.Activity;
+           
             Toast.MakeText(Forms.Context, text, ToastLength.Long).Show();
         }
     }

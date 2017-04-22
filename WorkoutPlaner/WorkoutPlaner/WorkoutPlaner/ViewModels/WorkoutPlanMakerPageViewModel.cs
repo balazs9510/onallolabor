@@ -20,7 +20,6 @@ namespace WorkoutPlaner.ViewModels
         #region ctor
         public WorkoutPlanMakerPageViewModel()
         {
-
             AddedExercises = new ObservableCollection<ExerciseItem>();
             CurrentExercises = new ObservableCollection<Exercise>();
             Service = new WorkoutService();
@@ -45,10 +44,18 @@ namespace WorkoutPlaner.ViewModels
             SaveMonthlyWorkoutCommand = new DelegateCommand(SaveMonthlyWorkoutAsync);
         }
         #endregion
-        
+
         #region Properties
+        private bool _isValid = false;
+        public bool IsValid
+        {
+            get { return _isValid; }
+            set { SetProperty(ref _isValid, value); }
+        }
+        private DailyWorkout editDailyWorkout;
         private DailyWorkout _sdw;
-        public DailyWorkout SelectedDW {
+        public DailyWorkout SelectedDW
+        {
             get { return _sdw; }
             set { SetProperty(ref _sdw, value); }
         }
@@ -59,9 +66,10 @@ namespace WorkoutPlaner.ViewModels
             set { SetProperty(ref _sww, value); }
         }
         private ObservableCollection<DailyWorkout> _dwts;
-        public ObservableCollection<DailyWorkout> DailyWorkoutsToSave {
+        public ObservableCollection<DailyWorkout> DailyWorkoutsToSave
+        {
             get { return _dwts; }
-            set { SetProperty(ref _dwts,value); }
+            set { SetProperty(ref _dwts, value); }
         }
         private ObservableCollection<WeeklyWorkout> _wwts;
         public ObservableCollection<WeeklyWorkout> WeeklyWorkoutsToSave
@@ -75,7 +83,7 @@ namespace WorkoutPlaner.ViewModels
         public String WorkoutPlanName
         {
             get { return _wpn; }
-            set { SetProperty(ref _wpn, value); }
+            set { SetProperty(ref _wpn, value); CheckModelState(); }
         }
         private int _serialStepper;
         public int SerialStepper
@@ -125,11 +133,12 @@ namespace WorkoutPlaner.ViewModels
         public ObservableCollection<ExerciseItem> AddedExercises
         {
             get { return _addedEx; }
-            set { SetProperty(ref _addedEx, value); }
+            set { SetProperty(ref _addedEx, value); CheckModelState(); }
         }
         public WorkoutService Service { get; set; }
         private ObservableCollection<DailyWorkout> _dw;
-        public ObservableCollection<DailyWorkout> DailyWorkouts {
+        public ObservableCollection<DailyWorkout> DailyWorkouts
+        {
             get { return _dw; }
             set { SetProperty(ref _dw, value); }
         }
@@ -159,13 +168,16 @@ namespace WorkoutPlaner.ViewModels
         }
         private void AddExercisePressed()
         {
-            if (SelectedItem != null) {
+            if (SelectedItem != null)
+            {
                 var newExercise = new ExerciseItem(SelectedItem)
                 {
                     SerialNumber = SerialStepper,
                     Reps = RepsStepper
                 };
                 this.AddedExercises.Add(newExercise);
+                this.SelectedItem = null;
+                CheckModelState();
             }
 
         }
@@ -179,6 +191,7 @@ namespace WorkoutPlaner.ViewModels
         {
             DailyWorkoutsToSave[SelectedDay] = SelectedDW;
             SelectedDW = null;
+            CheckModelState();
         }
         private async void SaveWeeklyWorkoutAsync()
         {
@@ -201,6 +214,7 @@ namespace WorkoutPlaner.ViewModels
         {
             WeeklyWorkoutsToSave[SelectedDay] = SelectedWW;
             SelectedWW = null;
+            CheckModelState();
         }
         private async void SaveMonthlyWorkoutAsync()
         {
@@ -221,11 +235,14 @@ namespace WorkoutPlaner.ViewModels
         private async void Load()
         {
             var exercises = await Service.GetExercisesAsync();
-            CurrentExercises = new ObservableCollection<Exercise>(exercises);
+            if (exercises != null)
+                CurrentExercises = new ObservableCollection<Exercise>(exercises);
             var dailyWorkouts = await Service.GetDailyWorkoutsAsync();
-            DailyWorkouts = new ObservableCollection<DailyWorkout>(dailyWorkouts);
+            if (dailyWorkouts != null)
+                DailyWorkouts = new ObservableCollection<DailyWorkout>(dailyWorkouts);
             var weeklyWorkouts = await Service.GetWeeklyWorkoutsAsync();
-            WeeklyWorkouts = new ObservableCollection<WeeklyWorkout>(weeklyWorkouts);
+            if (weeklyWorkouts != null)
+                WeeklyWorkouts = new ObservableCollection<WeeklyWorkout>(weeklyWorkouts);
         }
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
@@ -234,10 +251,50 @@ namespace WorkoutPlaner.ViewModels
         public void OnNavigatedTo(NavigationParameters parameters)
         {
             Navigation = parameters["navigation"] as INavigationService;
+            if (parameters["dworkout"] != null)
+                editDailyWorkout = parameters["dworkout"] as DailyWorkout;
+            Load();
+
+        }
+        private void CheckModelState()
+        {
+            if (WorkoutPlanName != "" &&
+                (AddedExercises.Any() ||
+                MonthlyModelValid() ||
+                WeeklyModelValid()))
+            {
+                IsValid = true;
+            }
+        }
+        private bool WeeklyModelValid()
+        {
+            var res = true;
+            if (DailyWorkoutsToSave != null)
+                foreach (var item in DailyWorkoutsToSave)
+                {
+                    if (item.Name == null ||item.Name.Equals("") )
+                        res = false;
+                }
+            else
+                res = false;
+            return res;
+        }
+        private bool MonthlyModelValid()
+        {
+            var res = true;
+            if (WeeklyWorkoutsToSave != null)
+                foreach (var item in WeeklyWorkoutsToSave)
+                {
+                    if (item.Name == null || item.Name.Equals("") )
+                        res = false;
+                }
+            else
+                res = false;
+            return res;
         }
         public void OnNavigatingTo(NavigationParameters parameters)
         {
-            Load();
+
         }
         #endregion
     }

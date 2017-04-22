@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading;
 using WorkoutPlaner.Models;
 using WorkoutPlaner.Services;
+using WorkoutPlaner.Views;
 using Xamarin.Forms;
 [assembly: Xamarin.Forms.Dependency(typeof(WorkoutPlaner.ViewModels.MainPageViewModel))]
 namespace WorkoutPlaner.ViewModels
@@ -72,7 +73,9 @@ namespace WorkoutPlaner.ViewModels
         }
         public DelegateCommand MuscleGroupClicked { get; set; }
         public DelegateCommand ExercisesClicked { get; set; }
-        public DelegateCommand AddWorkoutPlanClicked { get; set; }
+        public DelegateCommand AddDWorkoutPlanClicked { get; set; }
+        public DelegateCommand AddWWorkoutPlanClicked { get; set; }
+        public DelegateCommand AddMWorkoutPlanClicked { get; set; }
         public INavigationService Navigation { get; set; }
         public WorkoutService Service { get; set; }
         private bool _ps;
@@ -92,7 +95,9 @@ namespace WorkoutPlaner.ViewModels
             ProgresSeen = false;
             MuscleGroupClicked = new DelegateCommand(OpenMuscleGroups);
             ExercisesClicked = new DelegateCommand(OpenExercises);
-            AddWorkoutPlanClicked = new DelegateCommand(OpenExerciseMaker);
+            AddDWorkoutPlanClicked = new DelegateCommand(OpenDailyExerciseMaker);
+            AddWWorkoutPlanClicked = new DelegateCommand(OpenWeeklyExerciseMaker);
+            AddMWorkoutPlanClicked = new DelegateCommand(OpenMonthlyExerciseMaker);
             Service = new WorkoutService();
             Navigation = navigationService;
 
@@ -100,24 +105,34 @@ namespace WorkoutPlaner.ViewModels
         }
         private async void OpenMuscleGroups()
         {
-            await Navigation.NavigateAsync("MuscleGroupPage");
+            //await Navigation.NavigateAsync(nameof(MuscleGroupPage));
             // Debug.WriteLine("ez már nem fut ám le");
         }
         private async void OpenExercises()
         {
-            await Navigation.NavigateAsync("ExercisesPage");
+            await Navigation.NavigateAsync(nameof(ExercisesPage));
             // Debug.WriteLine("ez már nem fut ám le");
         }
-        private async void OpenExerciseMaker()
+        private async void OpenDailyExerciseMaker()
         {
             var navParam = new NavigationParameters();
             navParam.Add("navigation", this.Navigation);
-
-            await Navigation.NavigateAsync("WorkoutPlanMakerPage", navParam);
+            await Navigation.NavigateAsync(nameof(MakeDailyWorkoutPage), navParam);
+        }
+        private async void OpenWeeklyExerciseMaker()
+        {
+            var navParam = new NavigationParameters();
+            navParam.Add("navigation", this.Navigation);
+            await Navigation.NavigateAsync(nameof(MakeWeeklyWorkoutPage), navParam);
+        }
+        private async void OpenMonthlyExerciseMaker()
+        {
+            var navParam = new NavigationParameters();
+            navParam.Add("navigation", this.Navigation);
+            await Navigation.NavigateAsync(nameof(MakeMonthlyWorkoutPage), navParam);
         }
         private async void OpenDetailsPage(Models.Type t)
         {
-
             switch (t)
             {
                 case Models.Type.Daily:
@@ -125,6 +140,7 @@ namespace WorkoutPlaner.ViewModels
                     {
                         var navParam = new NavigationParameters();
                         navParam.Add("workout", SelectedDWorkout);
+                        navParam.Add("nav", Navigation);
                         await Navigation.NavigateAsync("DailyWorkoutDetailPage", navParam);
                     }                   
                     break;
@@ -168,6 +184,7 @@ namespace WorkoutPlaner.ViewModels
         public void OnNavigatedTo(NavigationParameters parameters)
         {
             LoadAsync();
+            
         }
 
         public void OnNavigatingTo(NavigationParameters parameters)

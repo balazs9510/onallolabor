@@ -28,7 +28,20 @@ namespace WorkoutPlaner.Services
                 serverUrl =  new Uri("http://127.0.0.1:65175/");
             client = new HttpClient();
             client.MaxResponseContentBufferSize = 256000;
-            client.Timeout = TimeSpan.FromSeconds(3);
+            client.Timeout = TimeSpan.FromSeconds(30);
+        }
+        private async Task PutAsync<T>(Uri uri,T data)
+        {
+
+            using (var client = new HttpClient())
+            {
+                var json = JsonConvert.SerializeObject(data);
+                var httpcontent = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
+                client.DefaultRequestHeaders
+                .Accept
+                .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var response = await client.PutAsync(uri, httpcontent);
+            }
         }
         private async Task<T> GetAsync<T>(Uri uri)
         {
@@ -73,9 +86,16 @@ namespace WorkoutPlaner.Services
                .Add(new MediaTypeWithQualityHeaderValue("application/json"));
                var response = await client.PostAsync(url, httpcontent);
            
-           }
-           
-            
+           }                     
+        }        public async Task DeleteAsync<T>(Uri uri,int id)
+        {
+            using (var client = new HttpClient())
+            {               
+                var response = await client.DeleteAsync(uri+$"/{id}");
+            }
+        }        public async Task DeleteDailyWorkout(DailyWorkout dw)
+        {
+            await DeleteAsync<DailyWorkout>(new Uri(serverUrl, $"api/DailyWorkouts"), dw.Id);
         }        public async Task PostDailyWorkout(DailyWorkout dw)
         {
             await PostAsync<DailyWorkout>(

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WorkoutPlaner.Views.DatePickerModalPage"
+             Title="DatePickerModalPage"
+             BackgroundColor="#FFD700">
+    <ScrollView>
+        <StackLayout>
+            <Label FontSize="Medium" TextColor="Black">
+                Kérlek add meg az időpontot:
+            </Label>
+            
+            <StackLayout Orientation="Horizontal" Padding="0,10,0,0">
+                <DatePicker x:Name="datePicker" VerticalOptions="End"/>
+                <Picker Title="Óra" x:Name="pickerHour" 
+                    VerticalOptions="Center"
+                    HeightRequest="70" />
+                <Picker Title="Perc" x:Name="pickerMin" 
+                    VerticalOptions="Center"
+                    HeightRequest="70"/>
+            </StackLayout>
+            
+            <StackLayout 
+                WidthRequest="200"
+                Orientation="Horizontal" HorizontalOptions="End">
+                <Button Text="Mentés" Clicked="Save_Clicked" BackgroundColor="#FFA500"/>
+                <Button Text="Mégse" Clicked="Cancel_Clicked" BackgroundColor="#FFA500"/>
+            </StackLayout>
+            
+        </StackLayout>
+        
+    </ScrollView>
+
+</ContentPage>

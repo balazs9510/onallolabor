@@ -20,9 +20,17 @@
                  Command="{Binding ExercisesClicked}" 
                  Priority="1"
                  Order="Secondary"/>
-        <ToolbarItem Text="Új edzés készítése" 
-                 Command="{Binding AddWorkoutPlanClicked}" 
+        <ToolbarItem Text="Új napi készítése" 
+                 Command="{Binding AddDWorkoutPlanClicked}" 
                  Priority="2"
+                 Order="Secondary"/>
+        <ToolbarItem Text="Új heti készítése" 
+                 Command="{Binding AddWWorkoutPlanClicked}" 
+                 Priority="3"
+                 Order="Secondary"/>
+        <ToolbarItem Text="Új havi készítése" 
+                 Command="{Binding AddMWorkoutPlanClicked}" 
+                 Priority="4"
                  Order="Secondary"/>
     </TabbedPage.ToolbarItems>
     <ContentPage Title="Napi"  >

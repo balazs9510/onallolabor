@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WorkoutPlaner.Views.MakeDailyWorkoutPage"
+             Title="Napi edzés készítése"
+             BackgroundColor="#FFD700">
+    <ScrollView>
+        <StackLayout>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label VerticalTextAlignment="Center"
+                       FontSize="Medium"
+                        Grid.Column="0" Grid.Row="0" 
+                        Text="Edzés neve: "/>
+                <Entry Grid.Column="1" Grid.Row="0" 
+                   Text="{Binding WorkoutPlanName}"/>
+                <Label VerticalTextAlignment="Center"
+                       FontSize="Medium"
+                   Text="Hozzáadott edzések: "
+                   Grid.Column="0" Grid.Row="1"/>
+
+                <ListView
+                Grid.Column="1"
+                Grid.Row="1"
+                ItemsSource="{Binding AddedExercises}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <StackLayout Orientation="Horizontal"
+                                             Padding="0,10,0,0">
+                                        <Label Text="{Binding Name}"/>
+                                        <Label Text="{Binding SerialNumber
+                                        ,StringFormat='{0:N0} x'}"
+                                         FontAttributes="Bold"  />
+                                        <Label Text="{Binding Reps}"
+                                            FontAttributes="Bold"/>
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Grid  Grid.Row="2"
+                       Grid.ColumnSpan="2"
+                        Padding="0,10,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0"
+                               Grid.Row="0"
+                               Text="{Binding SerialStepper,
+                               StringFormat= 'Sorozat szám: {0:N0}'}"
+                               VerticalTextAlignment="Center"/>
+                    <Stepper Value="{Binding SerialStepper,Mode=TwoWay}"  
+                                 Grid.Column="0"
+                                 Grid.Row="1"
+                                Minimum="0"
+                                Maximum="10"/>
+                    <Label Grid.Column="1"
+                               Grid.Row="0"
+                               Text="{Binding RepsStepper,
+                               StringFormat= 'Ismétlés szám: {0:N0}'}"                      
+                               VerticalTextAlignment="Center"/>
+                    <Stepper Grid.Column="1"
+                                 Grid.Row="1"
+                                 Value="{Binding RepsStepper,Mode=TwoWay}" 
+                                 Minimum="0" 
+                                 Maximum="30"/>
+
+                </Grid>
+
+                <SearchBar Grid.Column="0" Grid.Row="4" 
+                       Text="{Binding SearchBarText, Mode=TwoWay}"
+                       Placeholder="Gyakorlat keresése" Grid.ColumnSpan="2"
+                       SearchCommand="{Binding SearchExerciseCommand}"/>
+
+                <ListView                 
+                            SelectedItem="{Binding SelectedItem}"
+                            Grid.ColumnSpan="2"
+                            Grid.Row="5"
+                            ItemsSource="{Binding CurrentExercises}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </Grid>
+            <Button Text="Mentés" HorizontalOptions="End"
+                Command="{Binding SaveWorkoutPlanCommand}"
+                IsEnabled="{Binding IsValid}"
+                BackgroundColor="#8B0000"
+                />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

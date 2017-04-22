@@ -9,16 +9,22 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Primary" 
                      Priority="0"
+                     Command="{Binding DeleteCommand}"
                      Icon="trashcan.png"/>
-        <ToolbarItem Order="Secondary" 
+        <ToolbarItem Order="Primary" 
                      Priority="1"
-                     Text="Szerkesztés"/>
+                     Command="{Binding EditCommand}"
+                     Icon="pencil.png"/>
     </ContentPage.ToolbarItems>
-    <StackLayout>
+    <StackLayout Padding="10,10,10,10">
         <Label Text="{Binding Name}" 
-               TextColor="Red"
+               TextColor="Black"
                FontSize="Large"
                FontAttributes="Bold"/>
+        <BoxView  HorizontalOptions="Fill"
+                  HeightRequest="3"
+                  WidthRequest="1"
+                  BackgroundColor="Black"/>
         <ListView ItemsSource="{Binding ExerciseItems}">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -49,13 +55,13 @@
                                    TextColor="Black"
                                    />
                             </Grid>
-
                         </ViewCell.View>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
+        <Button Command="{Binding ImportToCalendarCommand}"
+                Text="Mentés a naptárba"/>
     </StackLayout>
 
 </ContentPage>
