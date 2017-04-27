@@ -6,25 +6,28 @@
              BackgroundColor="#FFD700">
     <ScrollView>
         <StackLayout>
-            <Label FontSize="Medium" TextColor="Black">
+            <Label FontSize="Large" TextColor="Black">
                 Kérlek add meg az időpontot:
             </Label>
             
-            <StackLayout Orientation="Horizontal" Padding="0,10,0,0">
-                <DatePicker x:Name="datePicker" VerticalOptions="End"/>
-                <Picker Title="Óra" x:Name="pickerHour" 
-                    VerticalOptions="Center"
+            <StackLayout 
+                HorizontalOptions="Center"
+                Orientation="Horizontal" Padding="0,10,0,0">
+                <DatePicker x:Name="datePicker"/>
+                <Picker Title="Óra" 
+                        
+                        x:Name="pickerHour" 
+                   
                     HeightRequest="70" />
                 <Picker Title="Perc" x:Name="pickerMin" 
-                    VerticalOptions="Center"
                     HeightRequest="70"/>
             </StackLayout>
             
             <StackLayout 
                 WidthRequest="200"
                 Orientation="Horizontal" HorizontalOptions="End">
-                <Button Text="Mentés" Clicked="Save_Clicked" BackgroundColor="#FFA500"/>
-                <Button Text="Mégse" Clicked="Cancel_Clicked" BackgroundColor="#FFA500"/>
+                <Button Text="Mentés" Clicked="Save_Clicked" BackgroundColor="#8B0000"/>
+                <Button Text="Mégse" Clicked="Cancel_Clicked" BackgroundColor="#8B0000"/>
             </StackLayout>
             
         </StackLayout>

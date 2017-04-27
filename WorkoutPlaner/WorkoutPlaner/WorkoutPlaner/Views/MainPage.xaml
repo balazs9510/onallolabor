@@ -12,10 +12,6 @@
 
 
     <TabbedPage.ToolbarItems>
-        <ToolbarItem Text="Izomcsoportok"                 
-                 Command="{Binding MuscleGroupClicked}" 
-                 Priority="0"
-                 Order="Secondary"/>
         <ToolbarItem Text="Gyakorlatok" 
                  Command="{Binding ExercisesClicked}" 
                  Priority="1"
@@ -73,9 +69,10 @@
     <ContentPage Title="Heti">
         <StackLayout>
             <ProgressBar 
+                BackgroundColor="Blue"
+                HeightRequest="7"
                 IsVisible="{Binding ProgresSeen}"
-                Progress="0.5"/>
-        
+                Progress="{Binding Progress}"/>
             <ListView ItemsSource="{Binding WeeklyWorkouts}"
                       SelectedItem="{Binding SelectedWWorkout}">
                 <ListView.ItemTemplate>
@@ -106,9 +103,10 @@
     <ContentPage Title="Havi">
         <StackLayout>
             <ProgressBar 
+                BackgroundColor="Blue"
+                HeightRequest="7"
                 IsVisible="{Binding ProgresSeen}"
-                Progress="0.5"/>
-
+                Progress="{Binding Progress}"/>
             <ListView ItemsSource="{Binding MonthlyWorkouts}"
                       SelectedItem="{Binding SelectedMWorkout}">
                 <ListView.ItemTemplate>

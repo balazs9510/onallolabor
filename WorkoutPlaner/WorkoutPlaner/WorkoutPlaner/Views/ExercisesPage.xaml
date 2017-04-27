@@ -4,12 +4,14 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="WorkoutPlaner.Views.ExercisesPage"
+            
              Title="Gyakorlatok"
-             BackgroundColor="#FFD700">
+             BackgroundColor="#FFD700"
+             >
     <ListView x:Name="ExerciseView" ItemsSource="{Binding Exercises}">
         <ListView.ItemTemplate>
             <DataTemplate>
-                <TextCell Text="{Binding Name}"/>
+                <TextCell Text="{Binding Name}" TextColor="Black"/>
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>

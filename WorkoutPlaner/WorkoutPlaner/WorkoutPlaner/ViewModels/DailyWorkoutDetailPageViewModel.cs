@@ -19,12 +19,7 @@ namespace WorkoutPlaner.ViewModels
         public WorkoutService Service { get; set; }
         public DelegateCommand DeleteCommand { get; set; }
         public DelegateCommand ImportToCalendarCommand { get; set; }
-        private string _name;
-        public string Name
-        {
-            get { return _name; }
-            set { SetProperty(ref _name, value); }
-        }
+      
         private DailyWorkout _current;
         public DailyWorkout Current
         {
@@ -42,7 +37,7 @@ namespace WorkoutPlaner.ViewModels
 
         public DailyWorkoutDetailPageViewModel()
         {
-            Current = new DailyWorkout();
+            Current = new DailyWorkout() { Name="Töltés..."};
             Service = new WorkoutService();
             ExerciseItems = new ObservableCollection<ExerciseItem>();
             ImportToCalendarCommand = new DelegateCommand(DatePickerModalPageOpen);
@@ -58,11 +53,16 @@ namespace WorkoutPlaner.ViewModels
         public void OnNavigatedTo(NavigationParameters parameters)
         {
             Current = parameters["workout"] as DailyWorkout;
-            if (Current.Exercises != null)
-                ExerciseItems = new ObservableCollection<ExerciseItem>(
-                     Current.Exercises);
-            this.Name = Current.Name;
-            Navigation = parameters["nav"] as INavigationService; ;
+            if (Current != null)
+            {
+                if (Current.Exercises != null)
+                    ExerciseItems = new ObservableCollection<ExerciseItem>(
+                         Current.Exercises);
+             
+
+            }
+           
+            Navigation = parameters["nav"] as INavigationService; ; 
 
         }
 
@@ -76,26 +76,23 @@ namespace WorkoutPlaner.ViewModels
             navParam.Add("name", Current.Name);
             await Navigation.NavigateAsync("DatePickerModalPage", navParam, true, true);
         }
-        private async void GoBack()
-        {
-            await Navigation.NavigateAsync("MainPage");
-        }
+    
         private async void DeleteWorkoutAsync()
         {
             await Service.DeleteDailyWorkout(Current);
-            OpenPage(nameof(MainPage));
+            OpenPageAsync(nameof(MainPage));
         }
         private void Edit()
         {
             var navParam = new NavigationParameters();
             navParam.Add("nav", Navigation);
-            navParam.Add("dworkout", Current);
-            OpenPage(nameof(MakeDailyWorkoutPage), navParam);
+            navParam.Add("workout", Current);
+            OpenPageAsync(nameof(MakeDailyWorkoutPage), navParam);
 
         }
-        private void OpenPage(string pageName, NavigationParameters navParam = null)
+        private async void OpenPageAsync(string pageName, NavigationParameters navParam = null)
         {
-            Navigation.NavigateAsync(pageName, navParam);
+            await Navigation.NavigateAsync(pageName, navParam);
         }
     }
 }

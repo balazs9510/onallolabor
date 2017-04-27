@@ -4,70 +4,75 @@
              x:Class="WorkoutPlaner.Views.MakeWeeklyWorkoutPage"
              Title="Heti edzés készítése"
              BackgroundColor="#FFD700">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
+    <StackLayout>
 
-        <StackLayout Orientation="Horizontal">
-            <Label VerticalTextAlignment="Center"
-                        Grid.Column="0" Grid.Row="0" 
-                           Text="Edzés neve: "/>
-            <Entry Grid.ColumnSpan="2" 
-                       Grid.Column="1"
-                       Grid.Row="0" 
-                   Text="{Binding WorkoutPlanName}"/>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+            <Label  FontSize="Medium"
+                    TextColor="Black"
+                    Text="Edzés neve: "
+                    VerticalOptions="Center"/>
+            <Entry 
+               
+                   TextColor="Black"
+                   Placeholder="Ide írhatod az edzés nevét"
+                   Text="{Binding Current.Name}"/>
+
         </StackLayout>
-        <ListView ItemsSource="{Binding DailyWorkouts}"
+        <StackLayout Orientation="Horizontal"
+                     WidthRequest="100"
+                     HeightRequest="100">
+            <ListView ItemsSource="{Binding DailyWorkouts}"
                       SelectedItem="{Binding SelectedWorkout,Mode=TwoWay}"
                       Grid.Column="0" Grid.Row="1">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding Name}">
-
-                    </TextCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Picker VerticalOptions="Center"
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Name}" TextColor="Black"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Picker VerticalOptions="Center"
                     HeightRequest="70"
                 Title="Válassz napot!" 
                     SelectedIndex="{Binding SelectedDay}"
                     Grid.Column="1" Grid.Row="1">
-            <Picker.Items>
-                <x:String>1.nap</x:String>
-                <x:String>2.nap</x:String>
-                <x:String>3.nap</x:String>
-                <x:String>4.nap</x:String>
-                <x:String>5.nap</x:String>
-                <x:String>6.nap</x:String>
-                <x:String>7.nap</x:String>
-            </Picker.Items>
-        </Picker>
-        <Button VerticalOptions="Center"
+                <Picker.Items>
+                    <x:String>1.nap</x:String>
+                    <x:String>2.nap</x:String>
+                    <x:String>3.nap</x:String>
+                    <x:String>4.nap</x:String>
+                    <x:String>5.nap</x:String>
+                    <x:String>6.nap</x:String>
+                    <x:String>7.nap</x:String>
+                </Picker.Items>
+            </Picker>
+            <Button VerticalOptions="Center"
                 Command="{Binding AddDailyWorkoutCommand}"
                 Text="Hozzáadás" Grid.Column="2" Grid.Row="1"/>
-        <ListView
-                Grid.ColumnSpan="3"
-                Grid.Row="2"
-                ItemsSource="{Binding DailyWorkoutsToSave}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell
-                            Text="{Binding Name,StringFormat='Edzés neve: {0:S}'}"
-                            />
-                </DataTemplate>
-            </ListView.ItemTemplate>
+        </StackLayout>
 
-        </ListView>
+
+        <Label TextColor="Black"
+               FontSize="Medium"
+               Text="{Binding Current.DayOne.Name,StringFormat='Hétfő: {0:S}'}" />
+        <Label TextColor="Black"
+               FontSize="Medium"
+               Text="{Binding Current.DayTwo.Name,StringFormat='Kedd: {0:S}'}" />
+        <Label TextColor="Black"
+               FontSize="Medium"
+               Text="{Binding Current.DayThree.Name,StringFormat='Szerda: {0:S}'}" />
+        <Label TextColor="Black"
+               FontSize="Medium"
+               Text="{Binding Current.DayFour.Name,StringFormat='Csütörtök: {0:S}'}" />
+        <Label TextColor="Black"
+               FontSize="Medium"
+               Text="{Binding Current.DayFive.Name,StringFormat='Péntek: {0:S}'}" />
+        <Label TextColor="Black"
+               FontSize="Medium"
+               Text="{Binding Current.DaySix.Name,StringFormat='Szombat: {0:S}'}" />
+        <Label TextColor="Black"
+               FontSize="Medium"
+               Text="{Binding Current.DaySeven.Name,StringFormat='Vasárnap: {0:S}'}" />
+
         <Button 
             HorizontalOptions="End"
             Grid.ColumnSpan="3"
@@ -77,5 +82,5 @@
             IsEnabled="{Binding IsValid}"
             Text="Mentés"/>
 
-    </Grid>
+    </StackLayout>
 </ContentPage>

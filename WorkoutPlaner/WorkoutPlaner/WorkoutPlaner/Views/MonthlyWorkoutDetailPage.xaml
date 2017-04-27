@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             Title="{Binding Current.Name}"
+             BackgroundColor="#FFD700"
+             x:Class="WorkoutPlaner.Views.MonthlyWorkoutDetailPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Secondary" 
+                     Priority="0"
+                     Command="{Binding DeleteCommand}"
+                     Text="Törlés"/>
+        <ToolbarItem Order="Secondary" 
+                     Priority="1"
+                     Command="{Binding EditCommand}"
+                    Text="Szerkesztés"/>
+    </ContentPage.ToolbarItems>
+    <StackLayout Padding="10,10,10,10">
+        <Label Text="{Binding Current.Name}" 
+               TextColor="Black"
+               FontSize="Large"
+               FontAttributes="Bold"/>
+        <BoxView  HorizontalOptions="Fill"
+                  HeightRequest="3"
+                  WidthRequest="1"
+                  BackgroundColor="Black"/>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Első hét : " TextColor="Black" FontSize="Medium" />
+            <Label Text="{Binding Current.WeekOne.Name}"  TextColor="Black" FontSize="Medium"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Második hét : " TextColor="Black" FontSize="Medium" />
+            <Label Text="{Binding Current.WeekTwo.Name}"  TextColor="Black" FontSize="Medium"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Harmadik hét : " TextColor="Black" FontSize="Medium" />
+            <Label Text="{Binding Current.WeekThree.Name}"  TextColor="Black" FontSize="Medium"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Negyedik hét : " TextColor="Black" FontSize="Medium" />
+            <Label Text="{Binding Current.WeekFour.Name}"  TextColor="Black" FontSize="Medium"/>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

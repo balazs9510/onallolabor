@@ -15,18 +15,29 @@ namespace WorkoutPlaner.ViewModels
     {
         public MakeMonthlyWorkoutViewModel()
         {
-            WorkoutPlanName = "";
-            Service = new WorkoutService();
-            WeeklyWorkoutsToSave = new ObservableCollection<WeeklyWorkout>();
-            for (int i = 0; i < 4; i++)
+           
+            Current = new MonthlyWorkout()
             {
-                WeeklyWorkoutsToSave.Add(new WeeklyWorkout());
-            }
+                Name = "",
+                WeekOne = new WeeklyWorkout() { Name = "-" },
+                WeekTwo = new WeeklyWorkout() { Name = "-" },
+                WeekThree = new WeeklyWorkout() { Name = "-" },
+                WeekFour = new WeeklyWorkout() { Name = "-" },
+
+            };
+            Service = new WorkoutService();
+  
 
             AddWeeklyWorkoutCommand = new DelegateCommand(AddWeeklyWorkout);
             SaveMonthlyWorkoutCommand = new DelegateCommand(SaveMonthlyWorkoutAsync);
         }
         #region Properties
+        private MonthlyWorkout _current;
+        public MonthlyWorkout Current
+        {
+            get { return _current; }
+            set { SetProperty(ref _current, value); CheckModelState(); }
+        }
         private int _id = -1;
         private bool _isValid = false;
         public bool IsValid
@@ -35,17 +46,7 @@ namespace WorkoutPlaner.ViewModels
             set { SetProperty(ref _isValid, value); }
         }
         public WorkoutService Service { get; set; }
-        private string _wpn;
-        public string WorkoutPlanName
-        {
-            get { return _wpn; }
-            set
-            {
-                SetProperty(ref _wpn, value);
-                CheckModelState();
-            }
-        }
-
+     
         private WeeklyWorkout _sww;
         public WeeklyWorkout SelectedWW
         {
@@ -63,49 +64,79 @@ namespace WorkoutPlaner.ViewModels
         public DelegateCommand AddWeeklyWorkoutCommand { get; set; }
         public DelegateCommand SaveMonthlyWorkoutCommand { get; set; }
         public INavigationService Navigation { get; set; }
-        private ObservableCollection<WeeklyWorkout> _wwts;
-        public ObservableCollection<WeeklyWorkout> WeeklyWorkoutsToSave
-        {
-            get { return _wwts; }
-            set { SetProperty(ref _wwts, value); }
-        }
+
         #endregion
         private void AddWeeklyWorkout()
         {
-            WeeklyWorkoutsToSave[SelectedDay] = SelectedWW;
+            switch (SelectedDay)
+            {
+                case 0:
+                    Current = new MonthlyWorkout()
+                    {
+                        Name = Current.Name,
+                        WeekOne = SelectedWW,
+                        WeekTwo = Current.WeekTwo,
+                        WeekThree = Current.WeekThree,
+                        WeekFour = Current.WeekFour
+                    };
+                    break;
+                case 1:
+                    Current = new MonthlyWorkout()
+                    {
+
+                        Name = Current.Name,
+                        WeekOne = Current.WeekOne,
+                        WeekTwo = SelectedWW,
+                        WeekThree = Current.WeekThree,
+                        WeekFour = Current.WeekFour
+                    };
+                    break;
+                case 2:
+                    Current = new MonthlyWorkout()
+                    {
+
+                        Name = Current.Name,
+                        WeekOne = Current.WeekTwo,
+                        WeekTwo = Current.WeekTwo,
+                        WeekThree = SelectedWW,
+                        WeekFour = Current.WeekFour
+                    }; break;
+                case 3:
+                    Current = new MonthlyWorkout()
+                    {
+
+                        Name = Current.Name,
+                        WeekOne = Current.WeekTwo,
+                        WeekTwo = Current.WeekTwo,
+                        WeekThree = Current.WeekThree,
+                        WeekFour = SelectedWW
+                    }; ; break;
+            }
             CheckModelState();
         }
         private async void SaveMonthlyWorkoutAsync()
         {
-            MonthlyWorkout saveInstance = new MonthlyWorkout()
+            if (_id!=-1)
             {
-                Name = WorkoutPlanName,
-                WeekOne = WeeklyWorkoutsToSave[0],
-                WeekTwo = WeeklyWorkoutsToSave[1],
-                WeekThree = WeeklyWorkoutsToSave[2],
-                WeekFour = WeeklyWorkoutsToSave[3],
-            };
-            if (_id != -1)
-            {
-                await Service.PutMonthlyWorkout(saveInstance);
+                Current.Id = _id;
+                await Service.PutMonthlyWorkout(Current);
             }
             else
-                await Service.PostMonthlyWorkout(saveInstance);
+                await Service.PostMonthlyWorkout(Current);
             OpenPage(nameof(MainPage));
         }
         private void CheckModelState()
         {
             var res = true;
-            if (WeeklyWorkoutsToSave != null)
-                foreach (var item in WeeklyWorkoutsToSave)
-                {
-                    if (item.Name == null || item.Name.Equals(""))
-                        res = false;
-                }
-            else
+            if (Current.WeekOne.Name.Equals("-") ||
+                Current.WeekTwo.Name.Equals("-") ||
+                Current.WeekThree.Name.Equals("-") ||
+                Current.WeekFour.Name.Equals("-"))
                 res = false;
-            if (WorkoutPlanName != "" && res)
+            if (Current.Name != null && Current.Name.Length > 3 && res)
                 IsValid = true;
+            else
+                IsValid = false;
         }
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
@@ -114,7 +145,12 @@ namespace WorkoutPlaner.ViewModels
         public void OnNavigatedTo(NavigationParameters parameters)
         {
             Navigation = parameters["nav"] as INavigationService;
-            var savedInstance = parameters["wokrout"] as MonthlyWorkout;
+            var savedInstance = parameters["workout"] as MonthlyWorkout;
+            if(savedInstance!=null)
+            {
+                _id = savedInstance.Id;
+                Current = savedInstance;
+            }
             Load(savedInstance);
         }
         private async void OpenPage(string name)
@@ -127,15 +163,7 @@ namespace WorkoutPlaner.ViewModels
         }
         private async void Load(MonthlyWorkout savedInstance = null)
         {
-            if (savedInstance != null)
-            {
-                WorkoutPlanName = savedInstance.Name;
-                WeeklyWorkoutsToSave.Add(savedInstance.WeekOne);
-                WeeklyWorkoutsToSave.Add(savedInstance.WeekTwo);
-                WeeklyWorkoutsToSave.Add(savedInstance.WeekThree);
-                WeeklyWorkoutsToSave.Add(savedInstance.WeekFour);
-                _id = savedInstance.Id;
-            }
+           
             var weeklyWorkouts = await Service.GetWeeklyWorkoutsAsync();
             if (weeklyWorkouts != null)
                 WeeklyWorkouts = new ObservableCollection<WeeklyWorkout>(weeklyWorkouts);

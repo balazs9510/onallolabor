@@ -30,22 +30,31 @@ namespace WorkoutPlaner.Droid
             //var cursor = Forms.Context.ContentResolver.Query(calendarsUri,null,null,null,null);
             //cursor.MoveToFirst();
             //int _calId = cursor.GetInt(cursor.GetColumnIndex(CalendarContract.Calendars.InterfaceConsts.Id));
-            cw.Put(CalendarContract.Events.InterfaceConsts.CalendarId,
-            0);
-            cw.Put(CalendarContract.Events.InterfaceConsts.Title, name);
-            cw.Put(CalendarContract.Events.InterfaceConsts.Dtstart,
-                GetDateTimeMS(time.Year, time.Month, time.Day, time.Hour, time.Minute)
-             );
-            cw.Put(CalendarContract.Events.InterfaceConsts.Dtend,
-                GetDateTimeMS(time.Year, time.Month, time.Day, time.Hour + 2, time.Minute)
-             );
-            cw.Put(CalendarContract.Events.InterfaceConsts.EventTimezone,
-                "UTC");
-            cw.Put(CalendarContract.Events.InterfaceConsts.EventEndTimezone,
-                "UTC");
-            var context = Forms.Context.ContentResolver;
+            //cw.Put(CalendarContract.Events.InterfaceConsts.CalendarId,
+            //0);
+            //cw.Put(CalendarContract.Events.InterfaceConsts.Title, name);
+            //cw.Put(CalendarContract.Events.InterfaceConsts.Dtstart,
+            //    GetDateTimeMS(time.Year, time.Month, time.Day, time.Hour, time.Minute)
+            // );
+            //cw.Put(CalendarContract.Events.InterfaceConsts.Dtend,
+            //    GetDateTimeMS(time.Year, time.Month, time.Day, time.Hour + 2, time.Minute)
+            // );
+            //cw.Put(CalendarContract.Events.InterfaceConsts.EventTimezone,
+            //    "UTC");
+            //cw.Put(CalendarContract.Events.InterfaceConsts.EventEndTimezone,
+            //    "UTC");
+            //var context = Forms.Context.ContentResolver;
             
-            var uri = context.Insert(CalendarContract.Events.ContentUri, cw);
+            //var uri = context.Insert(CalendarContract.Events.ContentUri, cw);
+            Intent intent = new Intent(Intent.ActionInsert);
+            intent.SetData(CalendarContract.Events.ContentUri);
+            intent.PutExtra(CalendarContract.ExtraEventBeginTime,
+                GetDateTimeMS(time.Year, time.Month, time.Day, time.Hour, time.Minute));
+            intent.PutExtra(CalendarContract.ExtraEventBeginTime,
+                GetDateTimeMS(time.Year, time.Month, time.Day, time.Hour + 2, time.Minute));
+            intent.PutExtra(CalendarContract.Events.InterfaceConsts.Title,
+                name);
+            Forms.Context.StartActivity(intent);
         }
 
         public void SaveMonthlyWorkoutToCalendar(WeeklyWorkout[] workouts, DateTime time)

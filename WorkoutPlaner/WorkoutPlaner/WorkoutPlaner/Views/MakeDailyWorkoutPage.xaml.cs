@@ -15,6 +15,7 @@ namespace WorkoutPlaner.Views
         public MakeDailyWorkoutPage()
         {
             InitializeComponent();
+            
         }
     }
 }

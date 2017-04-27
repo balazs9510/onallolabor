@@ -49,6 +49,8 @@
     <Compile Include="ViewModels\MakeDailyWorkoutViewModel.cs" />
     <Compile Include="ViewModels\MakeMonthlyWorkoutViewModel.cs" />
     <Compile Include="ViewModels\MakeWeeklyWorkoutViewModel.cs" />
+    <Compile Include="ViewModels\MonthlyWorkoutDetailPageViewModel.cs" />
+    <Compile Include="ViewModels\WeeklyWorkoutDetailPageViewModel.cs" />
     <Compile Include="Views\DailyWorkoutDetailPage.xaml.cs">
       <DependentUpon>DailyWorkoutDetailPage.xaml</DependentUpon>
     </Compile>
@@ -69,6 +71,12 @@
     </Compile>
     <Compile Include="Views\MakeWeeklyWorkoutPage.xaml.cs">
       <DependentUpon>MakeWeeklyWorkoutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MonthlyWorkoutDetailPage.xaml.cs">
+      <DependentUpon>MonthlyWorkoutDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WeeklyWorkoutDetailPage.xaml.cs">
+      <DependentUpon>WeeklyWorkoutDetailPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +174,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\MakeMonthlyWorkoutPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\WeeklyWorkoutDetailPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\MonthlyWorkoutDetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

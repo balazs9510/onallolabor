@@ -4,20 +4,20 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="WorkoutPlaner.Views.DailyWorkoutDetailPage"
-             Title="Részletek"
+             Title="{Binding Current.Name}"
              BackgroundColor="#FFD700">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Order="Primary" 
+        <ToolbarItem Order="Secondary" 
                      Priority="0"
                      Command="{Binding DeleteCommand}"
-                     Icon="trashcan.png"/>
-        <ToolbarItem Order="Primary" 
+                     Text="Törlés"/>
+        <ToolbarItem Order="Secondary" 
                      Priority="1"
                      Command="{Binding EditCommand}"
-                     Icon="pencil.png"/>
+                    Text="Szerkesztés"/>
     </ContentPage.ToolbarItems>
     <StackLayout Padding="10,10,10,10">
-        <Label Text="{Binding Name}" 
+        <Label Text="{Binding Current.Name}" 
                TextColor="Black"
                FontSize="Large"
                FontAttributes="Bold"/>
@@ -60,7 +60,10 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Command="{Binding ImportToCalendarCommand}"
+        <Button 
+            VerticalOptions="Start"
+            Command="{Binding ImportToCalendarCommand}"
+                BackgroundColor="#8B0000"
                 Text="Mentés a naptárba"/>
     </StackLayout>
 

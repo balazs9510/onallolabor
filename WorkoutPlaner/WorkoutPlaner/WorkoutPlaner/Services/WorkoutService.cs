@@ -23,7 +23,8 @@ namespace WorkoutPlaner.Services
         public WorkoutService()
         {
             if (Device.OS == TargetPlatform.Android)
-                serverUrl = new Uri("http://10.0.3.2:65175/");
+                //serverUrl = new Uri("http://127.0.0.1:65175/");
+                serverUrl = new Uri("http://10.0.2.2:65175/");
             else
                 serverUrl = new Uri("http://127.0.0.1:65175/");
             client = new HttpClient();
@@ -111,11 +112,16 @@ namespace WorkoutPlaner.Services
         }
         public async Task PutDailyWorkout(DailyWorkout dw)
         {
-            await PutAsync<DailyWorkout>(serverUrl, dw.Id, dw);
+            await PutAsync<DailyWorkout>(new Uri(serverUrl, $"api/DailyWorkouts"), dw.Id, dw);
         }
+        public async Task PutWeeklyWorkout(WeeklyWorkout ww)
+        {
+            await PutAsync<WeeklyWorkout>(new Uri(serverUrl, $"api/WeeklyWorkouts"), ww.Id, ww);
+        }
+
         public async Task PutMonthlyWorkout(MonthlyWorkout mw)
         {
-            await PutAsync<MonthlyWorkout>(serverUrl, mw.Id, mw);
+            await PutAsync<MonthlyWorkout>(new Uri(serverUrl, $"api/MonthlyWorkouts"), mw.Id, mw);
         }
         #endregion
         #region DELETE
@@ -124,13 +130,28 @@ namespace WorkoutPlaner.Services
             using (var client = new HttpClient())
             {
                 var response = await client.DeleteAsync(uri + $"/{id}");
+                if (!response.IsSuccessStatusCode)
+                    showMessage();
             }
         }        public async Task DeleteDailyWorkout(DailyWorkout dw)
         {
             await DeleteAsync<DailyWorkout>(new Uri(serverUrl, $"api/DailyWorkouts"), dw.Id);
         }
+        public async Task DeleteWeeklyWorkout(WeeklyWorkout dw)
+        {
+            await DeleteAsync<WeeklyWorkout>(new Uri(serverUrl, $"api/WeeklyWorkouts"), dw.Id);
+        }                                                            
+        public async Task DeleteMontlyWorkout(MonthlyWorkout dw)     
+        {                                                            
+            await DeleteAsync<MonthlyWorkout>(new Uri(serverUrl, $"api/MonthlyWorkouts"), dw.Id);
+        }
         #endregion
 
+        private void showMessage()
+        {
+            DependencyService.Get<INotification>().ShowNotification(
+                "Ez az edzés nem törölhető,mert egy másik edzés része.");
+        }
 
     }
 }

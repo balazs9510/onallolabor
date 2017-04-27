@@ -4,68 +4,67 @@
              x:Class="WorkoutPlaner.Views.MakeMonthlyWorkoutPage"
              Title="Havi edzés készítése"
              BackgroundColor="#FFD700">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
 
+    <StackLayout VerticalOptions="Fill"
+        Orientation="Vertical">
         <StackLayout Orientation="Horizontal">
             <Label VerticalTextAlignment="Center"
-                        Grid.Column="0" Grid.Row="0" 
-                           Text="Edzés neve: "/>
-            <Entry Grid.ColumnSpan="2" 
-                       Grid.Column="1"
-                       Grid.Row="0" 
-                   Text="{Binding WorkoutPlanName}"/>
+                   TextColor="Black"
+                   FontSize="Medium"
+                   Text="Edzés neve: "/>
+            <Entry
+                   TextColor="Black"
+                   Placeholder="Ide írhatod az edzés nevét"
+                   Text="{Binding Current.Name}"/>
         </StackLayout>
-        <ListView ItemsSource="{Binding WeeklyWorkouts}"
+
+        <StackLayout Orientation="Horizontal">
+            <ListView 
+                HeightRequest="100"
+                WidthRequest="100"
+                ItemsSource="{Binding WeeklyWorkouts}"
                       SelectedItem="{Binding SelectedWW,Mode=TwoWay}"
                       Grid.Column="0" Grid.Row="1">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding Name}">
-
-                    </TextCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Picker VerticalOptions="Center"
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Name}" 
+                              TextColor="Black"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Picker VerticalOptions="Center"
                     HeightRequest="70"
-                Title="Válassz hetet!" 
+                    Title="Válassz hetet!" 
                     SelectedIndex="{Binding SelectedDay}"
                     Grid.Column="1" Grid.Row="1">
-            <Picker.Items>
-                <x:String>1.hét</x:String>
-                <x:String>2.hét</x:String>
-                <x:String>3.hét</x:String>
-                <x:String>4.hét</x:String>
-            </Picker.Items>
-        </Picker>
-        <Button VerticalOptions="Center"
-                Command="{Binding AddWeeklyWorkoutCommand}"
-                Text="Hozzáadás" Grid.Column="2" Grid.Row="1"/>
-        <ListView
-                Grid.ColumnSpan="3"
-                Grid.Row="2"
-                ItemsSource="{Binding WeeklyWorkoutsToSave}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell
-                            Text="{Binding Name,StringFormat='Heti edzés neve: {0:S}'}"
-                            />
-                </DataTemplate>
-            </ListView.ItemTemplate>
+                <Picker.Items>
+                    <x:String>1.hét</x:String>
+                    <x:String>2.hét</x:String>
+                    <x:String>3.hét</x:String>
+                    <x:String>4.hét</x:String>
+                </Picker.Items>
+            </Picker>
+            <Button VerticalOptions="Center"
+                    Text="Hozzáadás"
+                    Command="{Binding AddWeeklyWorkoutCommand}" />
+        </StackLayout>
 
-        </ListView>
-        <Button 
+
+        <Label FontSize="Medium"
+               Text="{Binding Current.WeekOne.Name,StringFormat='Első hét: {0:S}'}"
+               TextColor="Black"/>
+        <Label FontSize="Medium"
+               Text="{Binding  Current.WeekTwo.Name,StringFormat='Második hét: {0:S}'}"
+               TextColor="Black"/>
+        <Label FontSize="Medium"
+               Text="{Binding  Current.WeekThree.Name,StringFormat='Harmadik hét: {0:S}'}"
+               TextColor="Black"/>
+        <Label FontSize="Medium"
+               Text="{Binding  Current.WeekFour.Name,StringFormat='Negyedik hét: {0:S}'}"
+               TextColor="Black"/>
+
+        <Button
+            VerticalOptions="End"
             HorizontalOptions="End"
             Grid.ColumnSpan="3"
             Command="{Binding SaveMonthlyWorkoutCommand}"
@@ -73,5 +72,7 @@
             BackgroundColor="#8B0000"
             IsEnabled="{Binding IsValid}"
             Text="Mentés"/>
-    </Grid>
+    </StackLayout>
+
+
 </ContentPage>

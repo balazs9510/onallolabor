@@ -11,7 +11,7 @@ using WorkoutPlaner.Views;
 
 namespace WorkoutPlaner.ViewModels
 {
-    public class MakeDailyWorkoutViewModel : BindableBase,INavigationAware
+    public class MakeDailyWorkoutViewModel : BindableBase, INavigationAware
     {
         public MakeDailyWorkoutViewModel()
         {
@@ -69,14 +69,19 @@ namespace WorkoutPlaner.ViewModels
         public String WorkoutPlanName
         {
             get { return _wpn; }
-            set { SetProperty(ref _wpn, value);
-                CheckModelState(); }
+            set
+            {
+                SetProperty(ref _wpn, value);
+                CheckModelState();
+            }
         }
 
         private void CheckModelState()
         {
-            if (WorkoutPlanName != "" && AddedExercises.Any())
+            if (WorkoutPlanName != null && WorkoutPlanName.Length > 3 && AddedExercises.Any())
                 IsValid = true;
+            else
+                IsValid = false;
         }
 
         private int _serialStepper;
@@ -86,6 +91,8 @@ namespace WorkoutPlaner.ViewModels
             set { SetProperty(ref _serialStepper, value); }
         }
         private int _repsStepper;
+        private int _id = -1;
+
         public int RepsStepper
         {
             get { return _repsStepper; }
@@ -97,12 +104,24 @@ namespace WorkoutPlaner.ViewModels
         #region Commands
         private async void SaveWorkoutPlanPressedAsync()
         {
-            await Service.PostDailyWorkout(new DailyWorkout()
+            if (_id != -1)
             {
-                Name = WorkoutPlanName,
-                WorkoutType = Models.Type.Daily,
-                Exercises = AddedExercises
-            });
+                await Service.PutDailyWorkout(new DailyWorkout()
+                {
+                    Id = _id,
+                    Name = WorkoutPlanName,
+                    WorkoutType = Models.Type.Daily,
+                    Exercises = AddedExercises
+                });
+            }
+            else
+                await Service.PostDailyWorkout(new DailyWorkout()
+                {
+                    Id = _id,
+                    Name = WorkoutPlanName,
+                    WorkoutType = Models.Type.Daily,
+                    Exercises = AddedExercises
+                });
             OpenPage(nameof(MainPage));
         }
         private async void OpenPage(string name)
@@ -121,7 +140,7 @@ namespace WorkoutPlaner.ViewModels
                 this.AddedExercises.Add(newExercise);
                 this.SelectedItem = null;
                 CheckModelState();
-                
+
             }
 
         }
@@ -136,24 +155,36 @@ namespace WorkoutPlaner.ViewModels
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
-            
+
         }
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
-           
-            
+            Navigation = parameters["nav"] as INavigationService;
+            var savedInstance = parameters["workout"] as DailyWorkout;
+            if (savedInstance != null)
+            {
+                
+                AddedExercises = new ObservableCollection<ExerciseItem>(savedInstance.Exercises);
+
+            }
+            LoadAsync(savedInstance);
+
         }
 
         public void OnNavigatingTo(NavigationParameters parameters)
         {
-            Navigation = parameters["navigation"] as INavigationService;
-            if (parameters["dworkout"] != null) { }
-                //  editDailyWorkout = parameters["dworkout"] as DailyWorkout;
-            LoadAsync();
+
         }
-        private async void LoadAsync()
+        private async void LoadAsync(DailyWorkout savedInstance)
         {
+            if (savedInstance != null)
+            {
+                WorkoutPlanName = savedInstance.Name;
+                if (savedInstance.Exercises != null)
+                    AddedExercises = new ObservableCollection<ExerciseItem>(savedInstance.Exercises);
+                _id = savedInstance.Id;
+            }
             var exercises = await Service.GetExercisesAsync();
             if (exercises != null)
                 CurrentExercises = new ObservableCollection<Exercise>(exercises);

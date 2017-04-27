@@ -30,6 +30,8 @@ namespace WorkoutPlaner
             Container.RegisterTypeForNavigation<MakeWeeklyWorkoutPage, MakeWeeklyWorkoutViewModel>();
             Container.RegisterTypeForNavigation<MakeMonthlyWorkoutPage, MakeMonthlyWorkoutViewModel>();
 
+            Container.RegisterTypeForNavigation<WeeklyWorkoutDetailPage>();
+            Container.RegisterTypeForNavigation<MonthlyWorkoutDetailPage>();
         }
     }
 }

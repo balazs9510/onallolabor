@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="WorkoutPlaner.Views.WeeklyWorkoutDetailPage"
+             BackgroundColor="#FFD700"
+             Title="{Binding Name}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Secondary" 
+                     Priority="0"
+                     Command="{Binding DeleteCommand}"
+                     Text="Törlés"/>
+        <ToolbarItem Order="Secondary" 
+                     Priority="1"
+                     Command="{Binding EditCommand}"
+                    Text="Szerkesztés"/>
+    </ContentPage.ToolbarItems>
+    <StackLayout Padding="10,10,10,10">
+        <Label Text="{Binding Name}" 
+               TextColor="Black"
+               FontSize="Large"
+               FontAttributes="Bold"/>
+        <BoxView  HorizontalOptions="Fill"
+                  HeightRequest="3"
+                  WidthRequest="1"
+                  BackgroundColor="Black"/>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Hétfő : " TextColor="Black" FontSize="Medium"
+                   />
+            <Label Text="{Binding Current.DayOne.Name}"  TextColor="Black" FontSize="Medium"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Kedd : " TextColor="Black" FontSize="Medium"
+                   />
+            <Label Text="{Binding Current.DayTwo.Name}"  TextColor="Black" FontSize="Medium"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Szerda : " TextColor="Black" FontSize="Medium"
+                   />
+            <Label Text="{Binding Current.DayThree.Name}"  TextColor="Black" FontSize="Medium"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Csütörtök : " TextColor="Black" FontSize="Medium"
+                   />
+            <Label Text="{Binding Current.DayFour.Name}"  TextColor="Black" FontSize="Medium"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Péntek : " TextColor="Black" FontSize="Medium"
+                   />
+            <Label Text="{Binding Current.DayFive.Name}"  TextColor="Black" FontSize="Medium"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Szombat : " TextColor="Black" FontSize="Medium"
+                   />
+            <Label Text="{Binding Current.DaySix.Name}"  TextColor="Black" FontSize="Medium"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Vasárnap : " TextColor="Black" FontSize="Medium"
+                   />
+            <Label Text="{Binding Current.DaySeven.Name}"  TextColor="Black" FontSize="Medium"/>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

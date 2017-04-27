@@ -2,12 +2,11 @@
 
 namespace WorkoutPlaner.Views
 {
-    public partial class ExercisesPage : ContentPage
+    public partial class MonthlyWorkoutDetailPage : ContentPage
     {
-        public ExercisesPage()
+        public MonthlyWorkoutDetailPage()
         {
             InitializeComponent();
-          
         }
     }
 }

@@ -7,6 +7,7 @@ namespace WorkoutPlaner.Views
         public DailyWorkoutDetailPage()
         {
             InitializeComponent();
+           
         }
     }
 }

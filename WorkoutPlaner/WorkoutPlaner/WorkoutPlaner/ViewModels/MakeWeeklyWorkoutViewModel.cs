@@ -16,19 +16,29 @@ namespace WorkoutPlaner.ViewModels
         public MakeWeeklyWorkoutViewModel()
         {
             SelectedDay = 0;
-            WorkoutPlanName = "";
-            DailyWorkouts = new ObservableCollection<DailyWorkout>();
-            DailyWorkoutsToSave = new ObservableCollection<DailyWorkout>();
-            for (int i = 0; i < 7; i++)
+            _id = -1;
+            Current = new WeeklyWorkout()
             {
-                DailyWorkoutsToSave.Add(new DailyWorkout());
-            }
+                Name = "",
+                DayOne = new DailyWorkout() { Name = "-" },
+                DayTwo = new DailyWorkout() { Name = "-" },
+                DayThree = new DailyWorkout() { Name = "-" },
+                DayFour = new DailyWorkout() { Name = "-" },
+                DayFive = new DailyWorkout() { Name = "-" },
+                DaySix = new DailyWorkout() { Name = "-" },
+                DaySeven = new DailyWorkout() { Name = "-" },
+            };
             Service = new WorkoutService();
             SelectedWorkout = new DailyWorkout();
             AddDailyWorkoutCommand = new DelegateCommand(AddDailyWorkout);
             SaveWeeklyWorkoutCommand = new DelegateCommand(SaveWeeklyWorkoutAsync);
         }
         #region Properties
+        public WeeklyWorkout Current
+        {
+            get { return _current; }
+            set { SetProperty(ref _current, value); CheckModelState(); }
+        }
         private bool _isValid = false;
         public bool IsValid
         {
@@ -36,27 +46,24 @@ namespace WorkoutPlaner.ViewModels
             set { SetProperty(ref _isValid, value); }
         }
         public int SelectedDay { get; set; }
-        private string _wpn;
-        public string WorkoutPlanName
-        {
-            get { return _wpn; }
-            set { SetProperty(ref _wpn, value);
-                CheckModelState();
-            }
-        }
+
 
         private void CheckModelState()
         {
             bool valid = true;
-            if (DailyWorkoutsToSave != null)
-                foreach (var item in DailyWorkoutsToSave)
-                {
-                    if (item.Name == null || item.Name == "")
-                        valid = false;
-                }
-            else valid = false;
-            if (WorkoutPlanName != "" && valid)
+            if (Current.DayOne.Name.Equals("") ||
+                Current.DayTwo.Name.Equals("") ||
+                Current.DayThree.Name.Equals("") ||
+                Current.DayFour.Name.Equals("") ||
+                Current.DayFive.Name.Equals("") ||
+                Current.DaySix.Name.Equals("") ||
+                Current.DaySeven.Name.Equals(""))
+                valid = false;
+
+            if (Current.Name.Length > 3 && valid)
                 IsValid = true;
+            else
+                IsValid = false;
         }
 
         private DailyWorkout _sw;
@@ -65,13 +72,11 @@ namespace WorkoutPlaner.ViewModels
             get { return _sw; }
             set { SetProperty(ref _sw, value); }
         }
-        private ObservableCollection<DailyWorkout> _dwts;
-        public ObservableCollection<DailyWorkout> DailyWorkoutsToSave
-        {
-            get { return _dwts; }
-            set { SetProperty(ref _dwts, value); }
-        }
+
         private ObservableCollection<DailyWorkout> _dw;
+        private WeeklyWorkout _current;
+        private int _id;
+
         public ObservableCollection<DailyWorkout> DailyWorkouts
         {
             get { return _dw; }
@@ -81,43 +86,131 @@ namespace WorkoutPlaner.ViewModels
         public DelegateCommand AddDailyWorkoutCommand { get; set; }
         public DelegateCommand SaveWeeklyWorkoutCommand { get; set; }
         public INavigationService Navigation { get; private set; }
+
         #endregion
         private void AddDailyWorkout()
         {
-            DailyWorkoutsToSave[SelectedDay] = new DailyWorkout()
+            switch (SelectedDay)
             {
-                Name = SelectedWorkout.Name,
-                Exercises = SelectedWorkout.Exercises,
-                WorkoutType = SelectedWorkout.WorkoutType,
-                Id = SelectedWorkout.Id
-            } ;
+                case 0:
+                    Current = new WeeklyWorkout()
+                    {
+                        Name = Current.Name,
+                        DayOne = SelectedWorkout,
+                        DayTwo = Current.DayTwo,
+                        DayThree = Current.DayThree,
+                        DayFour = Current.DayFour,
+                        DayFive = Current.DayFive,
+                        DaySix = Current.DaySix,
+                        DaySeven = Current.DaySeven,
+                    };
+                    break;
+                case 1:
+                    Current = new WeeklyWorkout()
+                    {
+                        Name = Current.Name,
+                        DayTwo = SelectedWorkout,
+                        DayOne = Current.DayOne,
+                        DayThree = Current.DayThree,
+                        DayFour = Current.DayFour,
+                        DayFive = Current.DayFive,
+                        DaySix = Current.DaySix,
+                        DaySeven = Current.DaySeven,
+                    };
+                    break;
+                case 2:
+                    Current = new WeeklyWorkout()
+                    {
+                        Name = Current.Name,
+                        DayThree = SelectedWorkout,
+                        DayTwo = Current.DayTwo,
+                        DayOne = Current.DayOne,
+                        DayFour = Current.DayFour,
+                        DayFive = Current.DayFive,
+                        DaySix = Current.DaySix,
+                        DaySeven = Current.DaySeven,
+                    };
+                    break;
+                case 3:
+                    Current = new WeeklyWorkout()
+                    {
+                        Name = Current.Name,
+                        DayFour = SelectedWorkout,
+                        DayTwo = Current.DayTwo,
+                        DayThree = Current.DayThree,
+                        DayOne = Current.DayOne,
+                        DayFive = Current.DayFive,
+                        DaySix = Current.DaySix,
+                        DaySeven = Current.DaySeven,
+                    };
+                    break;
+                case 4:
+                    Current = new WeeklyWorkout()
+                    {
+                        Name = Current.Name,
+                        DayFive = SelectedWorkout,
+                        DayTwo = Current.DayTwo,
+                        DayThree = Current.DayThree,
+                        DayFour = Current.DayFour,
+                        DayOne = Current.DayOne,
+                        DaySix = Current.DaySix,
+                        DaySeven = Current.DaySeven,
+                    };
+                    break;
+                case 5:
+                    Current = new WeeklyWorkout()
+                    {
+                        Name = Current.Name,
+                        DaySix = SelectedWorkout,
+                        DayTwo = Current.DayTwo,
+                        DayThree = Current.DayThree,
+                        DayFour = Current.DayFour,
+                        DayFive = Current.DayFive,
+                        DayOne = Current.DayOne,
+                        DaySeven = Current.DaySeven,
+                    };
+                    break;
+                case 6:
+                    Current = new WeeklyWorkout()
+                    {
+                        Name = Current.Name,
+                        DaySeven = SelectedWorkout,
+                        DayTwo = Current.DayTwo,
+                        DayThree = Current.DayThree,
+                        DayFour = Current.DayFour,
+                        DayFive = Current.DayFive,
+                        DaySix = Current.DaySix,
+                        DayOne = Current.DayOne,
+                    };
+                    break;
+            }
             CheckModelState();
         }
         private async void SaveWeeklyWorkoutAsync()
         {
-            WeeklyWorkout saveInstance = new WeeklyWorkout()
+            if (_id != -1)
             {
-                Name = WorkoutPlanName,
-                DayOne = DailyWorkoutsToSave[0],
-                DayTwo = DailyWorkoutsToSave[1],
-                DayThree = DailyWorkoutsToSave[2],
-                DayFour = DailyWorkoutsToSave[3],
-                DayFive = DailyWorkoutsToSave[4],
-                DaySix = DailyWorkoutsToSave[5],
-                DaySeven = DailyWorkoutsToSave[6],
-                WorkoutType = Models.Type.Weekly
-            };
-            await Service.PostWeeklyWorkout(saveInstance);
+                Current.Id = _id;
+                await Service.PutWeeklyWorkout(Current);
+            }
+            else
+                await Service.PostWeeklyWorkout(Current);
             OpenPage(nameof(MainPage));
         }
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
-            
+
         }
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
             Navigation = parameters["nav"] as INavigationService;
+            var savedInstance = parameters["workout"] as WeeklyWorkout;
+            if (savedInstance != null)
+            {
+                Current = savedInstance;
+                _id = savedInstance.Id;
+            }
             Load();
         }
         private async void Load()
@@ -128,7 +221,7 @@ namespace WorkoutPlaner.ViewModels
         }
         public void OnNavigatingTo(NavigationParameters parameters)
         {
-            
+
         }
         private async void OpenPage(string name)
         {

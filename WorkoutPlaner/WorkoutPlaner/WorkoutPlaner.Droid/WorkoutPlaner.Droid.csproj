@@ -123,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CalendarSaver.cs" />
+    <Compile Include="AlertDialog.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Nofitication.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -161,6 +162,7 @@
     <Content Include="pencil.png" />
     <Content Include="Resources\drawable\delete_btn.png" />
     <AndroidResource Include="Resources\drawable\trashcan.png" />
+    <Content Include="Resources\drawable\pencil.png" />
     <Content Include="trashcan.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
