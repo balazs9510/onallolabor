@@ -68,6 +68,7 @@ namespace WorkoutPlaner.ViewModels
         #endregion
         private void AddWeeklyWorkout()
         {
+            if(SelectedWW!=null)
             switch (SelectedDay)
             {
                 case 0:
@@ -96,7 +97,7 @@ namespace WorkoutPlaner.ViewModels
                     {
 
                         Name = Current.Name,
-                        WeekOne = Current.WeekTwo,
+                        WeekOne = Current.WeekOne,
                         WeekTwo = Current.WeekTwo,
                         WeekThree = SelectedWW,
                         WeekFour = Current.WeekFour
@@ -106,7 +107,7 @@ namespace WorkoutPlaner.ViewModels
                     {
 
                         Name = Current.Name,
-                        WeekOne = Current.WeekTwo,
+                        WeekOne = Current.WeekOne,
                         WeekTwo = Current.WeekTwo,
                         WeekThree = Current.WeekThree,
                         WeekFour = SelectedWW

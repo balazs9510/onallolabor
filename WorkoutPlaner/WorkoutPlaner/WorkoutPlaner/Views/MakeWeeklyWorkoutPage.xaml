@@ -12,7 +12,7 @@
                     Text="Edzés neve: "
                     VerticalOptions="Center"/>
             <Entry 
-               
+                   HorizontalOptions="FillAndExpand"
                    TextColor="Black"
                    Placeholder="Ide írhatod az edzés nevét"
                    Text="{Binding Current.Name}"/>

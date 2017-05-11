@@ -13,7 +13,7 @@
             <StackLayout 
                 HorizontalOptions="Center"
                 Orientation="Horizontal" Padding="0,10,0,0">
-                <DatePicker x:Name="datePicker"/>
+                <DatePicker VerticalOptions="End" x:Name="datePicker"/>
                 <Picker Title="Óra" 
                         
                         x:Name="pickerHour" 

@@ -51,13 +51,13 @@ namespace WorkoutPlaner.ViewModels
         private void CheckModelState()
         {
             bool valid = true;
-            if (Current.DayOne.Name.Equals("") ||
-                Current.DayTwo.Name.Equals("") ||
-                Current.DayThree.Name.Equals("") ||
-                Current.DayFour.Name.Equals("") ||
-                Current.DayFive.Name.Equals("") ||
-                Current.DaySix.Name.Equals("") ||
-                Current.DaySeven.Name.Equals(""))
+            if (Current.DayOne.Name.Equals("-") ||
+                Current.DayTwo.Name.Equals("-") ||
+                Current.DayThree.Name.Equals("-") ||
+                Current.DayFour.Name.Equals("-") ||
+                Current.DayFive.Name.Equals("-") ||
+                Current.DaySix.Name.Equals("-") ||
+                Current.DaySeven.Name.Equals("-"))
                 valid = false;
 
             if (Current.Name.Length > 3 && valid)
@@ -90,100 +90,101 @@ namespace WorkoutPlaner.ViewModels
         #endregion
         private void AddDailyWorkout()
         {
-            switch (SelectedDay)
-            {
-                case 0:
-                    Current = new WeeklyWorkout()
-                    {
-                        Name = Current.Name,
-                        DayOne = SelectedWorkout,
-                        DayTwo = Current.DayTwo,
-                        DayThree = Current.DayThree,
-                        DayFour = Current.DayFour,
-                        DayFive = Current.DayFive,
-                        DaySix = Current.DaySix,
-                        DaySeven = Current.DaySeven,
-                    };
-                    break;
-                case 1:
-                    Current = new WeeklyWorkout()
-                    {
-                        Name = Current.Name,
-                        DayTwo = SelectedWorkout,
-                        DayOne = Current.DayOne,
-                        DayThree = Current.DayThree,
-                        DayFour = Current.DayFour,
-                        DayFive = Current.DayFive,
-                        DaySix = Current.DaySix,
-                        DaySeven = Current.DaySeven,
-                    };
-                    break;
-                case 2:
-                    Current = new WeeklyWorkout()
-                    {
-                        Name = Current.Name,
-                        DayThree = SelectedWorkout,
-                        DayTwo = Current.DayTwo,
-                        DayOne = Current.DayOne,
-                        DayFour = Current.DayFour,
-                        DayFive = Current.DayFive,
-                        DaySix = Current.DaySix,
-                        DaySeven = Current.DaySeven,
-                    };
-                    break;
-                case 3:
-                    Current = new WeeklyWorkout()
-                    {
-                        Name = Current.Name,
-                        DayFour = SelectedWorkout,
-                        DayTwo = Current.DayTwo,
-                        DayThree = Current.DayThree,
-                        DayOne = Current.DayOne,
-                        DayFive = Current.DayFive,
-                        DaySix = Current.DaySix,
-                        DaySeven = Current.DaySeven,
-                    };
-                    break;
-                case 4:
-                    Current = new WeeklyWorkout()
-                    {
-                        Name = Current.Name,
-                        DayFive = SelectedWorkout,
-                        DayTwo = Current.DayTwo,
-                        DayThree = Current.DayThree,
-                        DayFour = Current.DayFour,
-                        DayOne = Current.DayOne,
-                        DaySix = Current.DaySix,
-                        DaySeven = Current.DaySeven,
-                    };
-                    break;
-                case 5:
-                    Current = new WeeklyWorkout()
-                    {
-                        Name = Current.Name,
-                        DaySix = SelectedWorkout,
-                        DayTwo = Current.DayTwo,
-                        DayThree = Current.DayThree,
-                        DayFour = Current.DayFour,
-                        DayFive = Current.DayFive,
-                        DayOne = Current.DayOne,
-                        DaySeven = Current.DaySeven,
-                    };
-                    break;
-                case 6:
-                    Current = new WeeklyWorkout()
-                    {
-                        Name = Current.Name,
-                        DaySeven = SelectedWorkout,
-                        DayTwo = Current.DayTwo,
-                        DayThree = Current.DayThree,
-                        DayFour = Current.DayFour,
-                        DayFive = Current.DayFive,
-                        DaySix = Current.DaySix,
-                        DayOne = Current.DayOne,
-                    };
-                    break;
-            }
+            if (SelectedWorkout != null)
+                switch (SelectedDay)
+                {
+                    case 0:
+                        Current = new WeeklyWorkout()
+                        {
+                            Name = Current.Name,
+                            DayOne = SelectedWorkout,
+                            DayTwo = Current.DayTwo,
+                            DayThree = Current.DayThree,
+                            DayFour = Current.DayFour,
+                            DayFive = Current.DayFive,
+                            DaySix = Current.DaySix,
+                            DaySeven = Current.DaySeven,
+                        };
+                        break;
+                    case 1:
+                        Current = new WeeklyWorkout()
+                        {
+                            Name = Current.Name,
+                            DayTwo = SelectedWorkout,
+                            DayOne = Current.DayOne,
+                            DayThree = Current.DayThree,
+                            DayFour = Current.DayFour,
+                            DayFive = Current.DayFive,
+                            DaySix = Current.DaySix,
+                            DaySeven = Current.DaySeven,
+                        };
+                        break;
+                    case 2:
+                        Current = new WeeklyWorkout()
+                        {
+                            Name = Current.Name,
+                            DayThree = SelectedWorkout,
+                            DayTwo = Current.DayTwo,
+                            DayOne = Current.DayOne,
+                            DayFour = Current.DayFour,
+                            DayFive = Current.DayFive,
+                            DaySix = Current.DaySix,
+                            DaySeven = Current.DaySeven,
+                        };
+                        break;
+                    case 3:
+                        Current = new WeeklyWorkout()
+                        {
+                            Name = Current.Name,
+                            DayFour = SelectedWorkout,
+                            DayTwo = Current.DayTwo,
+                            DayThree = Current.DayThree,
+                            DayOne = Current.DayOne,
+                            DayFive = Current.DayFive,
+                            DaySix = Current.DaySix,
+                            DaySeven = Current.DaySeven,
+                        };
+                        break;
+                    case 4:
+                        Current = new WeeklyWorkout()
+                        {
+                            Name = Current.Name,
+                            DayFive = SelectedWorkout,
+                            DayTwo = Current.DayTwo,
+                            DayThree = Current.DayThree,
+                            DayFour = Current.DayFour,
+                            DayOne = Current.DayOne,
+                            DaySix = Current.DaySix,
+                            DaySeven = Current.DaySeven,
+                        };
+                        break;
+                    case 5:
+                        Current = new WeeklyWorkout()
+                        {
+                            Name = Current.Name,
+                            DaySix = SelectedWorkout,
+                            DayTwo = Current.DayTwo,
+                            DayThree = Current.DayThree,
+                            DayFour = Current.DayFour,
+                            DayFive = Current.DayFive,
+                            DayOne = Current.DayOne,
+                            DaySeven = Current.DaySeven,
+                        };
+                        break;
+                    case 6:
+                        Current = new WeeklyWorkout()
+                        {
+                            Name = Current.Name,
+                            DaySeven = SelectedWorkout,
+                            DayTwo = Current.DayTwo,
+                            DayThree = Current.DayThree,
+                            DayFour = Current.DayFour,
+                            DayFive = Current.DayFive,
+                            DaySix = Current.DaySix,
+                            DayOne = Current.DayOne,
+                        };
+                        break;
+                }
             CheckModelState();
         }
         private async void SaveWeeklyWorkoutAsync()

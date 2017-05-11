@@ -43,13 +43,13 @@
                                    TextColor="Black"
                                    />
                                 <Label Grid.Column="1"
-                                Text="{Binding Reps, StringFormat='{0:N0} sorozat'}"
+                                Text="{Binding SerialNumber, StringFormat='{0:N0} sorozat'}"
                                    FontAttributes="Italic"
                                    FontSize="Medium"
                                    TextColor="Black"
                                    />
                                 <Label Grid.Column="2"
-                                Text="{Binding SerialNumber, StringFormat='{0:N0} ismétlés'}"
+                                Text="{Binding Reps, StringFormat='{0:N0} ismétlés'}"
                                    FontAttributes="Italic"
                                    FontSize="Medium"
                                    TextColor="Black"

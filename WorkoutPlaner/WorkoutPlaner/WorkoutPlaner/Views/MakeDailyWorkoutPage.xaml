@@ -27,6 +27,8 @@
                         Grid.Column="0" Grid.Row="0" 
                         Text="Edzés neve: "/>
                 <Entry Grid.Column="1" Grid.Row="0" 
+                       HorizontalOptions="FillAndExpand"
+                       Placeholder="Ide írhatod az edzés nevét"
                    Text="{Binding WorkoutPlanName}"/>
                 <Label VerticalTextAlignment="Center"
                        FontSize="Medium"

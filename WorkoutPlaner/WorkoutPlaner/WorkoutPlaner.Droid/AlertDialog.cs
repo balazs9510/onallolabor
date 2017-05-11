@@ -10,20 +10,21 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Xamarin.Forms;
-
+using WorkoutPlaner.Services;
+[assembly: Xamarin.Forms.Dependency(typeof(WorkoutPlaner.Droid.AlertDialog))]
 namespace WorkoutPlaner.Droid
 {
-    public class AlertDialog
+    public class AlertDialog : IDialogBuilder
     {
-        public AlertDialog(string title, string message)
+        
+        public void ShowDialog(string name, string description)
         {
             new Android.App.AlertDialog.Builder(Forms.Context)
-                .SetTitle(title)
-                .SetMessage(message)
+                .SetTitle(name)
+                .SetMessage(description)
                 .SetNegativeButton("Bezár", new MyOnClickListener())
                 .Create();
         }
-        
     }
     public class MyOnClickListener : IDialogInterfaceOnClickListener
     {

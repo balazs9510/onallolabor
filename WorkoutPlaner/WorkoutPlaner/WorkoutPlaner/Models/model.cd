@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="WorkoutPlaner.Models.BaseWorkout">
+    <Position X="3" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Models\BaseWorkout.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="WorkoutType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WorkoutPlaner.Models.DailyWorkout">
+    <Position X="5.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\BaseWorkout.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Exercises" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="WorkoutPlaner.Models.WeeklyWorkout">
+    <Position X="0.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAkAAAAAEAAAAAAQAAQAAAAAAAAAAAAAAAAgACA=</HashCode>
+      <FileName>Models\BaseWorkout.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WorkoutPlaner.Models.MonthlyWorkout">
+    <Position X="3" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABIAAAQABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\BaseWorkout.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WorkoutPlaner.Models.Exercise">
+    <Position X="7.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Models\Exercise.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WorkoutPlaner.Models.ExerciseItem">
+    <Position X="7.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ExerciseItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="WorkoutPlaner.Models.Type" Collapsed="true">
+    <Position X="5.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAgAAAAAAgA=</HashCode>
+      <FileName>Models\BaseWorkout.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

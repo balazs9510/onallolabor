@@ -9,8 +9,13 @@ using WorkoutPlaner.Services;
 [assembly: Xamarin.Forms.Dependency(typeof(WorkoutPlaner.UWP.Notification))]
 namespace WorkoutPlaner.UWP
 {
-    public class Notification : INotification
+    public class Notification : INotification,IDialogBuilder
     {
+        public void ShowDialog(string name, string description)
+        {
+            new MessageDialog(description, name).ShowAsync();
+        }
+
         public void ShowNotification(string text)
         {
             new MessageDialog(text).ShowAsync();

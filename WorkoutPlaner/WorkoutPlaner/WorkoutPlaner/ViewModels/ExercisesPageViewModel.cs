@@ -7,11 +7,21 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using WorkoutPlaner.Models;
 using WorkoutPlaner.Services;
+using Xamarin.Forms;
 
 namespace WorkoutPlaner.ViewModels
 {
     public class ExercisesPageViewModel : BindableBase, INavigationAware
     {
+        private Exercise _selected;
+        public Exercise Selected {
+            get { return _selected; }
+            set { SetProperty(ref _selected, value);
+                if(_selected!=null)
+                DependencyService.Get<IDialogBuilder>()
+                    .ShowDialog(_selected.Name, _selected.Description);
+            }
+        }
         private ObservableCollection<Exercise> _exercises;
         public ObservableCollection<Exercise> Exercises {
             get { return _exercises; }

@@ -6,7 +6,6 @@
             x:Class="WorkoutPlaner.Views.MainPage"
             Title="Edzés tervező"
             BackgroundColor="#FFD700"
-            BarTextColor="Black"
             BarBackgroundColor="#FFD700"
            >
 

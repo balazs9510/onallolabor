@@ -41,6 +41,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CalendarService.cs" />
     <Compile Include="Services\ICalendarSaver.cs" />
+    <Compile Include="Services\IDialogBuilder.cs" />
     <Compile Include="Services\INotification.cs" />
     <Compile Include="Services\WorkoutService.cs" />
     <Compile Include="ViewModels\DailyWorkoutDetailPageViewModel.cs" />
@@ -130,6 +131,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Models\model.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

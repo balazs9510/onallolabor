@@ -8,7 +8,8 @@
              Title="Gyakorlatok"
              BackgroundColor="#FFD700"
              >
-    <ListView x:Name="ExerciseView" ItemsSource="{Binding Exercises}">
+    <ListView x:Name="ExerciseView" ItemsSource="{Binding Exercises}"
+              SelectedItem="{Binding Selected}">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <TextCell Text="{Binding Name}" TextColor="Black"/>
